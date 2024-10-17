@@ -9,7 +9,6 @@ namespace CruiserTerminal
     public class CruiserTerminal : NetworkBehaviour
     {
         internal static CruiserTerminal Instance { get; private set; }
-        public static event Action<bool> cruiserTerminalEvent;
 
         public bool cruiserTerminalInUse;
         public GameObject canvasMainContainer;
@@ -28,8 +27,6 @@ namespace CruiserTerminal
 
         public override void OnNetworkSpawn()
         {
-            cruiserTerminalEvent = null;
-
             if (NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsServer)
                 Instance?.gameObject.GetComponent<NetworkObject>().Despawn();
             Instance = this;
@@ -89,11 +86,11 @@ namespace CruiserTerminal
         public void SetCruiserTerminalInUseServerRpc(bool inUse)
         {
             CTPlugin.mls.LogMessage("sending stuff to clients");
-            EventSetCruiserTerminalInUseClientRpc(inUse);
+            SetCruiserTerminalInUseClientRpc(inUse);
         }
 
         [ClientRpc]
-        public void EventSetCruiserTerminalInUseClientRpc(bool inUse)
+        public void SetCruiserTerminalInUseClientRpc(bool inUse)
         {
             CTPlugin.mls.LogMessage("cruiser terminal in use: " + inUse);
             cruiserTerminalInUse = inUse;
@@ -107,7 +104,7 @@ namespace CruiserTerminal
             {
                 cruiserTerminalAudio.PlayOneShot(leaveTerminalSFX);
             }
-            cruiserTerminalEvent.Invoke(inUse);
+            //interactTrigger.interactable = !inUse;
         }
 
         public void BeginUsingCruiserTerminal()

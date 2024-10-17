@@ -11,7 +11,7 @@ namespace CruiserTerminal
         static void StartPatch()
         {
             CTFunctions.Spawn();
-            CruiserTerminal.cruiserTerminalEvent += ReceivedEventFromServer;
+            //CruiserTerminal.cruiserTerminalEvent += ReceivedEventFromServer;
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(GameNetworkManager), "Start")]
@@ -26,11 +26,11 @@ namespace CruiserTerminal
         {
             GameObject.Destroy(GameObject.Find("Cruiser Terminal"));
             GameObject.Destroy(GameObject.Find("terminalPosition"));
-            CruiserTerminal.cruiserTerminalEvent -= ReceivedEventFromServer;
+            //CruiserTerminal.cruiserTerminalEvent -= ReceivedEventFromServer;
         }
 
         ///uuuh
-
+/*
         static void ReceivedEventFromServer(bool inUse)
         {
             CruiserTerminal.Instance.interactTrigger.interactable = !inUse;
@@ -41,7 +41,7 @@ namespace CruiserTerminal
             if (!(NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsServer))
                 return;
 
-            CruiserTerminal.Instance.EventSetCruiserTerminalInUseClientRpc(inUse);
-        }
+            CruiserTerminal.Instance.SetCruiserTerminalInUseClientRpc(inUse);
+        }*/
     }
 }
