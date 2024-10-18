@@ -104,7 +104,7 @@ namespace CruiserTerminal
             {
                 cruiserTerminalAudio.PlayOneShot(leaveTerminalSFX);
             }
-            //interactTrigger.interactable = !inUse;
+            interactTrigger.interactable = !inUse;
         }
 
         public void BeginUsingCruiserTerminal()
@@ -116,6 +116,7 @@ namespace CruiserTerminal
             }
 
             SetCruiserTerminalInUseServerRpc(true);
+            StartCoroutine(waitUntilFrameEndToSetActive(true));
             cruiserController.SetVehicleCollisionForPlayer(false, GameNetworkManager.Instance.localPlayerController);
             terminalScript.BeginUsingTerminal();
         }
