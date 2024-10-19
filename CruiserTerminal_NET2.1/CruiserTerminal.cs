@@ -1,8 +1,11 @@
-﻿using System;
+﻿using GameNetcodeStuff;
+using System;
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputRemoting;
 
 namespace CruiserTerminal
 {
@@ -15,6 +18,7 @@ namespace CruiserTerminal
         public Terminal terminalScript;
         public GameObject cruiserTerminal;
         public InteractTrigger interactTrigger;
+        public InteractTrigger terminalInteractTrigger;
         public AudioSource cruiserTerminalAudio;
         public AudioClip[] cruiserKeyboardClips;
         public AudioClip[] cruiserSyncedAudios;
@@ -24,6 +28,8 @@ namespace CruiserTerminal
         public AudioClip leaveTerminalSFX;
         public Light terminalLight;
         public VehicleController cruiserController;
+
+        private float timeSinceLastKeyboardPress;
 
         public override void OnNetworkSpawn()
         {
@@ -41,13 +47,7 @@ namespace CruiserTerminal
         }
 
         private void Start()
-        {
-            cruiserTerminal = GameObject.Find("Cruiser Terminal");
-            terminalPos = GameObject.Find("terminalPosition");
-            cruiserController = GameObject.Find("CompanyCruiser(Clone)").GetComponent<VehicleController>();
-
-            interactTrigger = base.gameObject.GetComponent<InteractTrigger>();
-
+        { 
             cruiserTerminalInUse = false;
 
             canvasMainContainer = CloneCanvas();
@@ -55,14 +55,26 @@ namespace CruiserTerminal
 
             terminalScript = GameObject.Find("Environment/HangarShip/Terminal/TerminalTrigger/TerminalScript").GetComponent<Terminal>();
 
-            enterTerminalSFX = terminalScript.enterTerminalSFX;
-            leaveTerminalSFX = terminalScript.leaveTerminalSFX;
+            cruiserTerminal = base.gameObject;
 
-            //cruiserTerminalAudio = terminalScript.terminalAudio;
+            interactTrigger = GameObject.Find("Cruiser Terminal/TerminalTrigger/Trigger").GetComponent<InteractTrigger>();
+            interactTrigger.onInteractEarly.AddListener(BeginUsingCruiserTerminal);
+            //interactTrigger.onCancelAnimation.AddListener(QuitCruiserTerminal);
+
+            terminalInteractTrigger = terminalScript.gameObject.GetComponent<InteractTrigger>();
+
+            cruiserTerminalAudio = terminalScript.terminalAudio;
             cruiserKeyboardClips = terminalScript.keyboardClips;
             cruiserSyncedAudios = terminalScript.syncedAudios;
 
+            terminalPos = GameObject.Find("terminalPosition");
+
+            enterTerminalSFX = terminalScript.enterTerminalSFX;
+            leaveTerminalSFX = terminalScript.leaveTerminalSFX;
+
             terminalLight = GameObject.Find("Cruiser Terminal/terminalLight").GetComponent<Light>();
+
+            cruiserController = GameObject.Find("CompanyCruiser(Clone)").GetComponent<VehicleController>();
         }
 
         private void Update()
@@ -74,6 +86,16 @@ namespace CruiserTerminal
             {
                 Destroy(canvasMainContainer);
                 canvasMainContainer = CloneCanvas();
+
+                if (Keyboard.current.anyKey.wasPressedThisFrame)
+                {
+                    if (timeSinceLastKeyboardPress > 0.07f)
+                    {
+                        timeSinceLastKeyboardPress = 0f;
+                        RoundManager.PlayRandomClip(cruiserTerminalAudio, cruiserKeyboardClips);
+                    }
+                }
+                timeSinceLastKeyboardPress += Time.deltaTime;
             }
         }
 
@@ -93,8 +115,7 @@ namespace CruiserTerminal
         public void SetCruiserTerminalInUseClientRpc(bool inUse)
         {
             CTPlugin.mls.LogMessage("cruiser terminal in use: " + inUse);
-            cruiserTerminalInUse = inUse;
-            StartCoroutine(waitUntilFrameEndToSetActive(inUse));
+
             terminalLight.enabled = inUse;
             if (inUse)
             {
@@ -105,32 +126,30 @@ namespace CruiserTerminal
                 cruiserTerminalAudio.PlayOneShot(leaveTerminalSFX);
             }
             interactTrigger.interactable = !inUse;
+            terminalInteractTrigger.interactable = !inUse;
         }
 
-        public void BeginUsingCruiserTerminal()
+        //PlayerControllerB is not needed for scripts, but i need it to .AddListener() at Start()
+        public void BeginUsingCruiserTerminal(PlayerControllerB player)
         {
             if (cruiserTerminalInUse)
             {
-                interactTrigger.StopSpecialAnimation();
                 return;
             }
 
             SetCruiserTerminalInUseServerRpc(true);
+            cruiserTerminalInUse = true;
             StartCoroutine(waitUntilFrameEndToSetActive(true));
             cruiserController.SetVehicleCollisionForPlayer(false, GameNetworkManager.Instance.localPlayerController);
             terminalScript.BeginUsingTerminal();
-        }
-
-        public void StopUsingCruiserTerminal()
-        {
-            cruiserTerminalInUse = false;
-            StartCoroutine(waitUntilFrameEndToSetActive(false));
         }
 
         public void QuitCruiserTerminal()
         {
             SetCruiserTerminalInUseServerRpc(false);
             cruiserController.SetVehicleCollisionForPlayer(true, GameNetworkManager.Instance.localPlayerController);
+            cruiserTerminalInUse = false;
+            StartCoroutine(waitUntilFrameEndToSetActive(false));
             terminalScript.QuitTerminal();
             interactTrigger.StopSpecialAnimation();
         }

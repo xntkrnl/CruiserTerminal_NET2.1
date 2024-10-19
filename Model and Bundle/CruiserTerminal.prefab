@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 180, y: -90, z: -180}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.03, y: 0.661}
+  m_AnchoredPosition: {x: -0.03, y: 1.518}
   m_SizeDelta: {x: 640, y: 480}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2875183087740083783
@@ -110,11 +110,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4526534458918925743}
-  - component: {fileID: 1563169203802080672}
-  - component: {fileID: 6901445710657822781}
-  - component: {fileID: 2094363137144050756}
-  - component: {fileID: 878302160153784037}
-  - component: {fileID: 8763428350472419259}
+  - component: {fileID: 1077495047467399546}
+  - component: {fileID: 1176155834241457340}
+  - component: {fileID: 3933083937152171154}
   m_Layer: 9
   m_Name: Trigger
   m_TagString: InteractTrigger
@@ -131,33 +129,13 @@ Transform:
   m_GameObject: {fileID: 1055118934594404395}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 3.3333333, z: 3.3333333}
+  m_LocalPosition: {x: -0.0122, y: 0.204, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5886270048860761122}
-  - {fileID: 9070955106727803155}
-  m_Father: {fileID: 3786517524374196386}
+  m_Children: []
+  m_Father: {fileID: 9162199891633290334}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1563169203802080672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1055118934594404395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1963069308, guid: c8272478c451dd24180c326f0015c05c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cruiserTerminalInUse: 0
-  canvasMainContainer: {fileID: 0}
-  terminalScript: {fileID: 0}
-  cruiserTerminalAudio: {fileID: 7553836380233386008}
-  cruiserKeyboardClips: []
-  cruiserSyncedAudios: []
---- !u!114 &6901445710657822781
+--- !u!114 &1077495047467399546
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hoverIcon: {fileID: 21300000, guid: 39dccaf3268dbfa4dac40448a80801c2, type: 3}
-  hoverTip: 'Access terminal : [LMB]'
+  hoverTip: Interact
   disabledHoverIcon: {fileID: 0}
   disabledHoverTip: 
   interactable: 1
@@ -200,45 +178,21 @@ MonoBehaviour:
       m_Calls: []
   onInteractEarly:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1563169203802080672}
-        m_TargetAssemblyTypeName: CruiserTerminal.CruiserTerminal, CruiserTerminal
-        m_MethodName: BeginUsingCruiserTerminal
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onStopInteract:
     m_PersistentCalls:
       m_Calls: []
   onCancelAnimation:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1563169203802080672}
-        m_TargetAssemblyTypeName: CruiserTerminal.CruiserTerminal, CruiserTerminal
-        m_MethodName: StopUsingCruiserTerminal
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  specialCharacterAnimation: 0
-  stopAnimationManually: 0
+      m_Calls: []
+  specialCharacterAnimation: 1
+  stopAnimationManually: 1
   stopAnimationString: SA_stopAnimation
-  hidePlayerItem: 0
+  hidePlayerItem: 1
   isPlayingSpecialAnimation: 0
   animationWaitTime: 2
-  animationString: 
-  lockPlayerPosition: 0
+  animationString: SA_Typing
+  lockPlayerPosition: 1
   playerPositionNode: {fileID: 9070955106727803155}
   clampLooking: 0
   setVehicleAnimation: 0
@@ -254,7 +208,7 @@ MonoBehaviour:
   ladderHorizontalPosition: {fileID: 0}
   ladderPlayerPositionNode: {fileID: 0}
   usingLadder: 0
---- !u!65 &2094363137144050756
+--- !u!65 &1176155834241457340
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -274,8 +228,8 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.1, y: 0.6, z: 0.7}
-  m_Center: {x: 0, y: 0.2, z: 0}
---- !u!65 &878302160153784037
+  m_Center: {x: 0, y: 0.25, z: 0}
+--- !u!65 &3933083937152171154
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -294,28 +248,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.3, y: 0.07, z: 1.03}
-  m_Center: {x: -0.24, y: -0.15, z: 0}
---- !u!114 &8763428350472419259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1055118934594404395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
+  m_Size: {x: 0.3, y: 0.07, z: 0.81}
+  m_Center: {x: -0.24, y: -0.35, z: 0}
 --- !u!1 &1902778972306449171
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,7 +261,7 @@ GameObject:
   - component: {fileID: 5886270048860761122}
   - component: {fileID: 7553836380233386008}
   - component: {fileID: 2846546305405231846}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: TerminalAudio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,11 +277,11 @@ Transform:
   m_GameObject: {fileID: 1902778972306449171}
   serializedVersion: 2
   m_LocalRotation: {x: 0.02048841, y: 0.70680994, z: 0.020488424, w: 0.7068099}
-  m_LocalPosition: {x: 7.1341157, y: 2.306829, z: -16.215553}
-  m_LocalScale: {x: 0.34726003, y: 0.20891005, z: 0.8927002}
+  m_LocalPosition: {x: -0.084, y: -0.135, z: 0}
+  m_LocalScale: {x: 0.34726003, y: 0.20891014, z: 0.8927002}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4526534458918925743}
+  m_Father: {fileID: 9162199891633290334}
   m_LocalEulerAnglesHint: {x: 0, y: -0, z: -0}
 --- !u!82 &7553836380233386008
 AudioSource:
@@ -471,7 +405,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9070955106727803155}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: playerPosCruiser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -486,13 +420,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2407687874982774177}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.00000019371507}
-  m_LocalPosition: {x: -14.560198, y: 7.220184, z: -16.139292}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -1.2, y: -2, z: 0}
   m_LocalScale: {x: 0.06779524, y: 0.10169312, z: 0.09885539}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4526534458918925743}
-  m_LocalEulerAnglesHint: {x: -0, y: -89.999985, z: 0}
+  m_Father: {fileID: 9162199891633290334}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &2986079895438449042
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +454,7 @@ Transform:
   m_GameObject: {fileID: 2986079895438449042}
   serializedVersion: 2
   m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: -0.21, y: 0.68, z: 0}
+  m_LocalPosition: {x: -0.21, y: 1.553, z: 0}
   m_LocalScale: {x: 3.3333333, y: 5.265, z: 3.553533}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -719,6 +653,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3786517524374196386}
+  - component: {fileID: 706716823906555297}
   m_Layer: 30
   m_Name: CruiserTerminal
   m_TagString: Untagged
@@ -741,11 +676,31 @@ Transform:
   m_Children:
   - {fileID: 1664431727871352055}
   - {fileID: 5090064990549212357}
-  - {fileID: 4526534458918925743}
   - {fileID: 2351498339438500671}
+  - {fileID: 9162199891633290334}
   - {fileID: 4784751800141709228}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &706716823906555297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3825936377857520712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &6997028896703254842
 GameObject:
   m_ObjectHideFlags: 0
@@ -775,8 +730,8 @@ Transform:
   m_GameObject: {fileID: 6997028896703254842}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.39461887, y: 0.50475913, z: -0.025}
-  m_LocalScale: {x: 0.21945864, y: 0.21945924, z: 0.21333528}
+  m_LocalPosition: {x: -0.552, y: 0.50475913, z: -0.025}
+  m_LocalScale: {x: 0.21945864, y: 0.2194586, z: 0.2194586}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3786517524374196386}
@@ -868,10 +823,44 @@ MonoBehaviour:
   minRange: 0
   requiresLineOfSight: 1
   headerText: Terminal
-  subText: Buy flashlights and travel to new planets!
+  subText: 
   scrapValue: 0
   creatureScanID: -1
   nodeType: 0
+--- !u!1 &7259188311188359551
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9162199891633290334}
+  m_Layer: 0
+  m_Name: TerminalTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9162199891633290334
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7259188311188359551}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 5, y: 3.3333333, z: 3.3333333}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4526534458918925743}
+  - {fileID: 5886270048860761122}
+  - {fileID: 9070955106727803155}
+  m_Father: {fileID: 3786517524374196386}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5038511021332240455
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -948,12 +937,57 @@ PrefabInstance:
     - target: {fileID: -8391222552659086748, guid: 6785fad2128db234186b9cb81dc9df66,
         type: 3}
       propertyPath: m_Layer
-      value: 30
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5477749408508380018, guid: 6785fad2128db234186b9cb81dc9df66,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -5477749408508380018, guid: 6785fad2128db234186b9cb81dc9df66,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5477749408508380018, guid: 6785fad2128db234186b9cb81dc9df66,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5477749408508380018, guid: 6785fad2128db234186b9cb81dc9df66,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -5477749408508380018, guid: 6785fad2128db234186b9cb81dc9df66,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -5477749408508380018, guid: 6785fad2128db234186b9cb81dc9df66,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -5477749408508380018, guid: 6785fad2128db234186b9cb81dc9df66,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: -3542852092398272455, guid: 6785fad2128db234186b9cb81dc9df66,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 51.54767
+      objectReference: {fileID: 0}
+    - target: {fileID: -3542852092398272455, guid: 6785fad2128db234186b9cb81dc9df66,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.1353375
       objectReference: {fileID: 0}
     - target: {fileID: -516098083770646512, guid: 6785fad2128db234186b9cb81dc9df66,
         type: 3}
       propertyPath: m_Layer
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6785fad2128db234186b9cb81dc9df66,
         type: 3}
@@ -963,17 +997,32 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6785fad2128db234186b9cb81dc9df66,
         type: 3}
       propertyPath: m_Layer
-      value: 30
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290268953411352940, guid: 6785fad2128db234186b9cb81dc9df66,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.556
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083501151425157549, guid: 6785fad2128db234186b9cb81dc9df66,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 132.45592
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083501151425157549, guid: 6785fad2128db234186b9cb81dc9df66,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.016
       objectReference: {fileID: 0}
     - target: {fileID: 6824746026288583490, guid: 6785fad2128db234186b9cb81dc9df66,
         type: 3}
       propertyPath: m_Layer
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8416272007918961125, guid: 6785fad2128db234186b9cb81dc9df66,
         type: 3}
       propertyPath: m_Layer
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
