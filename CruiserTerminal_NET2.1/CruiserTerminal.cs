@@ -30,7 +30,6 @@ namespace CruiserTerminal
         public VehicleController cruiserController;
 
         private float timeSinceLastKeyboardPress;
-        private bool iHateIt;
 
         public override void OnNetworkSpawn()
         {
@@ -48,9 +47,7 @@ namespace CruiserTerminal
         }
 
         private void Start()
-        { 
-            iHateIt = true;
-
+        {
             cruiserTerminalInUse = false;
 
             canvasMainContainer = CloneCanvas();
@@ -78,6 +75,15 @@ namespace CruiserTerminal
             terminalLight = GameObject.Find("Cruiser Terminal/terminalLight").GetComponent<Light>();
 
             cruiserController = GameObject.Find("CompanyCruiser(Clone)").GetComponent<VehicleController>();
+
+           /* if (!NetworkManager.Singleton.IsHost)
+            {
+                interactTrigger.onInteractEarly.RemoveAllListeners();
+                interactTrigger.onCancelAnimation.RemoveAllListeners();
+
+                interactTrigger.onInteractEarly.AddListener(BeginUsingCruiserTerminal);
+                interactTrigger.onCancelAnimation.AddListener(SetCruiserTerminalNoLongerInUse);
+            }*/
         }
 
         private void Update()
@@ -140,6 +146,8 @@ namespace CruiserTerminal
             terminalScript.BeginUsingTerminal();
             SetCruiserTerminalInUseServerRpc(true);
             cruiserTerminalInUse = true;
+
+            HUDManager.Instance.PingHUDElement(HUDManager.Instance.Clock, 1f, 0f, 0f);
         }
 
         public void QuitCruiserTerminal()
@@ -156,6 +164,7 @@ namespace CruiserTerminal
             cruiserController.SetVehicleCollisionForPlayer(true, GameNetworkManager.Instance.localPlayerController);
             cruiserTerminalInUse = false;
             StartCoroutine(waitUntilFrameEndToSetActive(false));
+            HUDManager.Instance.PingHUDElement(HUDManager.Instance.Clock, 0f, 1f, 1f);
         }
 
         private void OnEnable()
@@ -171,6 +180,7 @@ namespace CruiserTerminal
 
         private void PressESC(InputAction.CallbackContext context)
         {
+            interactTrigger.StopSpecialAnimation();
             if (context.performed && cruiserTerminalInUse)
             {
                 QuitCruiserTerminal();
