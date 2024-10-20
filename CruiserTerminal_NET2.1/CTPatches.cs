@@ -32,11 +32,11 @@ namespace CruiserTerminal
         [HarmonyPostfix, HarmonyPatch(typeof(Terminal), "SetTerminalInUseClientRpc")]
         static void SetTerminalInUsePatch(ref bool ___terminalInUse)
         {
-            var cruiserTerminalTrigger = GameObject.Find("Cruiser Terminal/TerminalTrigger/Trigger");
+            var cruiserTerminalTrigger = GameObject.Find("Cruiser Terminal");
             if (cruiserTerminalTrigger != null)
             {
-                cruiserTerminalTrigger.GetComponent<InteractTrigger>().interactable = !___terminalInUse;
-                CTPlugin.mls.LogInfo("cruiser terminal interactable = " + !___terminalInUse);
+                cruiserTerminalTrigger.GetComponent<CruiserTerminal>().SetCruiserTerminalInUseServerRpc(___terminalInUse);
+                CTPlugin.mls.LogInfo("cruiser terminal interactable = " + ___terminalInUse);
             }
         }
 

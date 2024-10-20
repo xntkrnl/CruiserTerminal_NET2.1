@@ -30,6 +30,7 @@ namespace CruiserTerminal
         public VehicleController cruiserController;
 
         private float timeSinceLastKeyboardPress;
+        private bool iHateIt;
 
         public override void OnNetworkSpawn()
         {
@@ -48,6 +49,8 @@ namespace CruiserTerminal
 
         private void Start()
         { 
+            iHateIt = true;
+
             cruiserTerminalInUse = false;
 
             canvasMainContainer = CloneCanvas();
@@ -59,11 +62,11 @@ namespace CruiserTerminal
 
             interactTrigger = GameObject.Find("Cruiser Terminal/TerminalTrigger/Trigger").GetComponent<InteractTrigger>();
             interactTrigger.onInteractEarly.AddListener(BeginUsingCruiserTerminal);
-            //interactTrigger.onCancelAnimation.AddListener(QuitCruiserTerminal);
+            interactTrigger.onCancelAnimation.AddListener(SetCruiserTerminalNoLongerInUse);
 
             terminalInteractTrigger = terminalScript.gameObject.GetComponent<InteractTrigger>();
 
-            cruiserTerminalAudio = terminalScript.terminalAudio;
+            cruiserTerminalAudio = GameObject.Find("Cruiser Terminal/TerminalTrigger/TerminalAudio").GetComponent<AudioSource>();
             cruiserKeyboardClips = terminalScript.keyboardClips;
             cruiserSyncedAudios = terminalScript.syncedAudios;
 
@@ -107,7 +110,7 @@ namespace CruiserTerminal
         [ServerRpc(RequireOwnership = false)]
         public void SetCruiserTerminalInUseServerRpc(bool inUse)
         {
-            CTPlugin.mls.LogMessage("sending stuff to clients");
+            CTPlugin.mls.LogMessage("sending inUse to clients: " + inUse);
             SetCruiserTerminalInUseClientRpc(inUse);
         }
 
@@ -132,26 +135,27 @@ namespace CruiserTerminal
         //PlayerControllerB is not needed for scripts, but i need it to .AddListener() at Start()
         public void BeginUsingCruiserTerminal(PlayerControllerB player)
         {
-            if (cruiserTerminalInUse)
-            {
-                return;
-            }
-
-            SetCruiserTerminalInUseServerRpc(true);
-            cruiserTerminalInUse = true;
             StartCoroutine(waitUntilFrameEndToSetActive(true));
             cruiserController.SetVehicleCollisionForPlayer(false, GameNetworkManager.Instance.localPlayerController);
             terminalScript.BeginUsingTerminal();
+            SetCruiserTerminalInUseServerRpc(true);
+            cruiserTerminalInUse = true;
         }
 
         public void QuitCruiserTerminal()
         {
+            SetCruiserTerminalNoLongerInUse(null);
+            terminalScript.QuitTerminal();
+            interactTrigger.StopSpecialAnimation();
+        }
+
+        public void SetCruiserTerminalNoLongerInUse(PlayerControllerB player)
+        {
+            CTPlugin.mls.LogMessage("terminal no longer in use!!!");
             SetCruiserTerminalInUseServerRpc(false);
             cruiserController.SetVehicleCollisionForPlayer(true, GameNetworkManager.Instance.localPlayerController);
             cruiserTerminalInUse = false;
             StartCoroutine(waitUntilFrameEndToSetActive(false));
-            terminalScript.QuitTerminal();
-            interactTrigger.StopSpecialAnimation();
         }
 
         private void OnEnable()
