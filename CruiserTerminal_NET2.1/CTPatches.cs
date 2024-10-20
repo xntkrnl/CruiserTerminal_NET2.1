@@ -40,8 +40,8 @@ namespace CruiserTerminal
             var cruiserTerminalTrigger = GameObject.Find("CruiserTerminal(Clone)");
             if (cruiserTerminalTrigger != null)
             {
-                cruiserTerminalTrigger.GetComponent<CTNetworkHandler>().SetCruiserTerminalInUseServerRpc(___terminalInUse);
-                CTPlugin.mls.LogInfo("cruiser terminal interactable = " + ___terminalInUse);
+                cruiserTerminalTrigger.GetComponent<CTNetworkHandler>().SetCruiserTerminalInteractableServerRpc(!___terminalInUse);
+                CTPlugin.mls.LogInfo("cruiser terminal interactable = " + !___terminalInUse);
             }
         }
 

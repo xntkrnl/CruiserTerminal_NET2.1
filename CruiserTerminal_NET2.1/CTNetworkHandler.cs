@@ -10,10 +10,14 @@ namespace CruiserTerminal
     {
         internal static CTNetworkHandler Instance { get; private set; }
         public CruiserTerminal cruiserTerminal;
+        internal bool repeatCheckInteractable;
+        internal bool repeatCheck;
 
         private void Start()
         {
             cruiserTerminal = base.gameObject.GetComponent<CruiserTerminal>();
+            repeatCheck = false;
+            repeatCheckInteractable = false;
         }
 
         public override void OnNetworkSpawn()
@@ -26,6 +30,22 @@ namespace CruiserTerminal
         }
 
         [ServerRpc(RequireOwnership = false)]
+        public void SetCruiserTerminalInteractableServerRpc(bool isInteractable)
+        {
+            SetCruiserTerminalInteractableClientRpc(isInteractable);
+        }
+
+        [ClientRpc]
+        public void SetCruiserTerminalInteractableClientRpc(bool isInteractable)
+        {
+            if (repeatCheckInteractable == isInteractable)
+                return;
+
+            repeatCheckInteractable = isInteractable;
+            cruiserTerminal.interactTrigger.interactable = isInteractable;
+        }
+
+        [ServerRpc(RequireOwnership = false)]
         public void SetCruiserTerminalInUseServerRpc(bool inUse)
         {
             CTPlugin.mls.LogMessage("sending inUse to clients: " + inUse);
@@ -35,16 +55,20 @@ namespace CruiserTerminal
         [ClientRpc]
         public void SetCruiserTerminalInUseClientRpc(bool inUse)
         {
+            if (repeatCheck == inUse)
+                return;
+
+            repeatCheck = inUse;
             CTPlugin.mls.LogMessage("cruiser terminal in use: " + inUse);
 
             cruiserTerminal.terminalLight.enabled = inUse;
             if (inUse)
             {
-                //cruiserTerminal.cruiserTerminalAudio.PlayOneShot(cruiserTerminal.enterTerminalSFX);
+                cruiserTerminal.cruiserTerminalAudio.PlayOneShot(cruiserTerminal.enterTerminalSFX);
             }
             else
             {
-                //cruiserTerminal.cruiserTerminalAudio.PlayOneShot(cruiserTerminal.leaveTerminalSFX);
+                cruiserTerminal.cruiserTerminalAudio.PlayOneShot(cruiserTerminal.leaveTerminalSFX);
             }
             cruiserTerminal.interactTrigger.interactable = !inUse;
             cruiserTerminal.terminalInteractTrigger.interactable = !inUse;
