@@ -47,14 +47,14 @@ namespace CruiserTerminal
 
             cruiserTerminal = base.gameObject;
 
-            interactTrigger = GameObject.Find("Cruiser Terminal/TerminalTrigger/Trigger").GetComponent<InteractTrigger>();
+            interactTrigger = GameObject.Find("CruiserTerminal(Clone)/TerminalTrigger/Trigger").GetComponent<InteractTrigger>();
             //interactTrigger.onInteractEarly.AddListener(BeginUsingCruiserTerminal);
             //interactTrigger.onCancelAnimation.AddListener(SetCruiserTerminalNoLongerInUse);
             CTNH = base.gameObject.GetComponent<CTNetworkHandler>();
 
             terminalInteractTrigger = terminalScript.gameObject.GetComponent<InteractTrigger>();
 
-            cruiserTerminalAudio = GameObject.Find("Cruiser Terminal/TerminalTrigger/TerminalAudio").GetComponent<AudioSource>();
+            cruiserTerminalAudio = GameObject.Find("CruiserTerminal(Clone)/TerminalTrigger/TerminalAudio").GetComponent<AudioSource>();
             cruiserKeyboardClips = terminalScript.keyboardClips;
             cruiserSyncedAudios = terminalScript.syncedAudios;
 
@@ -63,7 +63,7 @@ namespace CruiserTerminal
             enterTerminalSFX = terminalScript.enterTerminalSFX;
             leaveTerminalSFX = terminalScript.leaveTerminalSFX;
 
-            terminalLight = GameObject.Find("Cruiser Terminal/terminalLight").GetComponent<Light>();
+            terminalLight = GameObject.Find("CruiserTerminal(Clone)/terminalLight").GetComponent<Light>();
 
             cruiserController = GameObject.Find("CompanyCruiser(Clone)").GetComponent<VehicleController>();
 
@@ -101,7 +101,7 @@ namespace CruiserTerminal
 
         internal GameObject CloneCanvas()
         {
-            return Instantiate(GameObject.Find("Environment/HangarShip/Terminal/Canvas/MainContainer"), GameObject.Find("Cruiser Terminal/Canvas").transform);
+            return Instantiate(GameObject.Find("Environment/HangarShip/Terminal/Canvas/MainContainer"), GameObject.Find("CruiserTerminal(Clone)/Canvas").transform);
         }
 
         //PlayerControllerB is not needed for scripts, but i need it to .AddListener() at Start()
