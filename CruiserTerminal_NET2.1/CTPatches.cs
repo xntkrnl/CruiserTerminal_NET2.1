@@ -35,7 +35,7 @@ namespace CruiserTerminal
             var cruiserTerminalTrigger = GameObject.Find("Cruiser Terminal");
             if (cruiserTerminalTrigger != null)
             {
-                cruiserTerminalTrigger.GetComponent<CruiserTerminal>().SetCruiserTerminalInUseServerRpc(___terminalInUse);
+                cruiserTerminalTrigger.GetComponent<CTNetworkHandler>().SetCruiserTerminalInUseServerRpc(___terminalInUse);
                 CTPlugin.mls.LogInfo("cruiser terminal interactable = " + ___terminalInUse);
             }
         }
