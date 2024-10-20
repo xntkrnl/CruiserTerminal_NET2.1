@@ -11,7 +11,6 @@ namespace CruiserTerminal
         internal static CTNetworkHandler Instance { get; private set; }
         public CruiserTerminal cruiserTerminal;
 
-
         private void Start()
         {
             cruiserTerminal = base.gameObject.GetComponent<CruiserTerminal>();
@@ -41,11 +40,11 @@ namespace CruiserTerminal
             cruiserTerminal.terminalLight.enabled = inUse;
             if (inUse)
             {
-                cruiserTerminal.cruiserTerminalAudio.PlayOneShot(cruiserTerminal.enterTerminalSFX);
+                //cruiserTerminal.cruiserTerminalAudio.PlayOneShot(cruiserTerminal.enterTerminalSFX);
             }
             else
             {
-                cruiserTerminal.cruiserTerminalAudio.PlayOneShot(cruiserTerminal.leaveTerminalSFX);
+                //cruiserTerminal.cruiserTerminalAudio.PlayOneShot(cruiserTerminal.leaveTerminalSFX);
             }
             cruiserTerminal.interactTrigger.interactable = !inUse;
             cruiserTerminal.terminalInteractTrigger.interactable = !inUse;
