@@ -1,11 +1,6 @@
-﻿using GameNetcodeStuff;
-using System;
-using System.Collections;
-using Unity.Netcode;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Diagnostics;
 using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.InputRemoting;
 
 namespace CruiserTerminal
 {
@@ -40,16 +35,13 @@ namespace CruiserTerminal
         {
             cruiserTerminalInUse = false;
 
-            canvasMainContainer = CloneCanvas();
-            canvasMainContainer.SetActive(false);
+            canvasMainContainer = GameObject.Find("Environment/HangarShip/Terminal/Canvas");
 
             terminalScript = GameObject.Find("Environment/HangarShip/Terminal/TerminalTrigger/TerminalScript").GetComponent<Terminal>();
 
             cruiserTerminal = base.gameObject;
 
             interactTrigger = GameObject.Find("CruiserTerminal(Clone)/TerminalTrigger/Trigger").GetComponent<InteractTrigger>();
-            //interactTrigger.onInteractEarly.AddListener(BeginUsingCruiserTerminal);
-            //interactTrigger.onCancelAnimation.AddListener(SetCruiserTerminalNoLongerInUse);
             CTNH = base.gameObject.GetComponent<CTNetworkHandler>();
 
             terminalInteractTrigger = terminalScript.gameObject.GetComponent<InteractTrigger>();
@@ -66,15 +58,6 @@ namespace CruiserTerminal
             terminalLight = GameObject.Find("CruiserTerminal(Clone)/terminalLight").GetComponent<Light>();
 
             cruiserController = GameObject.Find("CompanyCruiser(Clone)").GetComponent<VehicleController>();
-
-            /*if (!NetworkManager.Singleton.IsHost)
-            {
-                interactTrigger.onInteractEarly.RemoveAllListeners();
-                interactTrigger.onCancelAnimation.RemoveAllListeners();
-
-                interactTrigger.onInteractEarly.AddListener(BeginUsingCruiserTerminal);
-                interactTrigger.onCancelAnimation.AddListener(SetCruiserTerminalNoLongerInUse);
-            }*/
         }
 
         private void Update()
@@ -84,8 +67,8 @@ namespace CruiserTerminal
 
             if (cruiserTerminalInUse)
             {
-                Destroy(canvasMainContainer);
-                canvasMainContainer = CloneCanvas();
+                //Destroy(canvasMainContainer);
+                //canvasMainContainer = CloneCanvas();
 
                 if (Keyboard.current.anyKey.wasPressedThisFrame)
                 {
@@ -99,7 +82,7 @@ namespace CruiserTerminal
             }
         }
 
-        internal GameObject CloneCanvas()
+        internal GameObject MoveCanvas()
         {
             return Instantiate(GameObject.Find("Environment/HangarShip/Terminal/Canvas/MainContainer"), GameObject.Find("CruiserTerminal(Clone)/Canvas").transform);
         }
@@ -155,8 +138,22 @@ namespace CruiserTerminal
 
         private IEnumerator waitUntilFrameEndToSetActive(bool active)
         {
+            if (active)
+            {
+                canvasMainContainer.transform.SetParent(cruiserTerminal.transform);
+                canvasMainContainer.transform.localPosition = new Vector3(-0.03f, 1.4f, 0.011f);
+                canvasMainContainer.transform.localScale = new Vector3(0.004f, 0.0043f, 0.0016f);
+                canvasMainContainer.transform.localRotation = Quaternion.Euler(new Vector3(0f, 90f, 0f));
+                
+            }
+            else
+            {
+                canvasMainContainer.transform.SetParent(terminalScript.gameObject.transform.parent.parent); //terminal
+                canvasMainContainer.transform.localPosition = new Vector3(-0.516f, 0.284f, 1.284f);
+                canvasMainContainer.transform.localScale = new Vector3(0.0015f, 0.0015f, 0.0016f);
+                canvasMainContainer.transform.localRotation = Quaternion.Euler(new Vector3(0f, 78.0969f, 90f));
+            }
             yield return new WaitForEndOfFrame();
-            canvasMainContainer.SetActive(active);
         }
     }
 }

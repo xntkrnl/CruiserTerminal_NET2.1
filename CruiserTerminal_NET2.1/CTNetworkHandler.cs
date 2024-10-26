@@ -32,22 +32,26 @@ namespace CruiserTerminal
         [ServerRpc(RequireOwnership = false)]
         public void SetCruiserTerminalInteractableServerRpc(bool isInteractable)
         {
+            if (repeatCheckInteractable == isInteractable)
+                return;
+            repeatCheckInteractable = isInteractable;
+
             SetCruiserTerminalInteractableClientRpc(isInteractable);
         }
 
         [ClientRpc]
         public void SetCruiserTerminalInteractableClientRpc(bool isInteractable)
         {
-            if (repeatCheckInteractable == isInteractable)
-                return;
-
-            repeatCheckInteractable = isInteractable;
             cruiserTerminal.interactTrigger.interactable = isInteractable;
         }
 
         [ServerRpc(RequireOwnership = false)]
         public void SetCruiserTerminalInUseServerRpc(bool inUse)
         {
+            if (repeatCheck == inUse)
+                return;
+            repeatCheck = inUse;
+
             CTPlugin.mls.LogMessage("sending inUse to clients: " + inUse);
             SetCruiserTerminalInUseClientRpc(inUse);
         }
@@ -55,10 +59,6 @@ namespace CruiserTerminal
         [ClientRpc]
         public void SetCruiserTerminalInUseClientRpc(bool inUse)
         {
-            if (repeatCheck == inUse)
-                return;
-
-            repeatCheck = inUse;
             CTPlugin.mls.LogMessage("cruiser terminal in use: " + inUse);
 
             cruiserTerminal.terminalLight.enabled = inUse;
