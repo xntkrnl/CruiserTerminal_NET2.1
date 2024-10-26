@@ -48,10 +48,12 @@ namespace CruiserTerminal
         [HarmonyPostfix, HarmonyPatch(typeof(ManualCameraRenderer), "MeetsCameraEnabledConditions")]
         static void MeetsCameraEnabledConditionsPatch(ref bool __result)
         {
-            if (StartOfRound.Instance == null)
+            var cterminal = GameObject.Find("CruiserTerminal(Clone)");
+
+            if (StartOfRound.Instance == null || cterminal == null)
                 return;
 
-            if (!StartOfRound.Instance.inShipPhase && !__result)
+            if (cterminal.GetComponent<CruiserTerminal>().cruiserTerminalInUse)
                 __result = true;
         }
     }
