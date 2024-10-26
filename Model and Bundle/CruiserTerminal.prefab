@@ -177,13 +177,37 @@ MonoBehaviour:
       m_Calls: []
   onInteractEarly:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 709458296371293019}
+        m_TargetAssemblyTypeName: CruiserTerminal.CruiserTerminal, CruiserTerminal
+        m_MethodName: BeginUsingCruiserTerminal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onStopInteract:
     m_PersistentCalls:
       m_Calls: []
   onCancelAnimation:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 709458296371293019}
+        m_TargetAssemblyTypeName: CruiserTerminal.CruiserTerminal, CruiserTerminal
+        m_MethodName: SetCruiserTerminalNoLongerInUse
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   specialCharacterAnimation: 1
   stopAnimationManually: 1
   stopAnimationString: SA_stopAnimation
@@ -632,6 +656,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3786517524374196386}
   - component: {fileID: 706716823906555297}
+  - component: {fileID: 709458296371293019}
   m_Layer: 30
   m_Name: CruiserTerminal
   m_TagString: Untagged
@@ -679,6 +704,32 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &709458296371293019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3825936377857520712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1963069308, guid: 64bb3cbbd816dbf4ba7965172a02e94b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cruiserTerminalInUse: 0
+  canvasMainContainer: {fileID: 0}
+  terminalScript: {fileID: 0}
+  cruiserTerminal: {fileID: 0}
+  interactTrigger: {fileID: 0}
+  terminalInteractTrigger: {fileID: 0}
+  cruiserTerminalAudio: {fileID: 0}
+  cruiserKeyboardClips: []
+  cruiserSyncedAudios: []
+  terminalPos: {fileID: 0}
+  enterTerminalSFX: {fileID: 0}
+  leaveTerminalSFX: {fileID: 0}
+  terminalLight: {fileID: 0}
+  cruiserController: {fileID: 0}
 --- !u!1 &6997028896703254842
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,6 +1013,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -1.1353375
       objectReference: {fileID: 0}
+    - target: {fileID: -3542852092398272455, guid: 6785fad2128db234186b9cb81dc9df66,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.9
+      objectReference: {fileID: 0}
     - target: {fileID: -516098083770646512, guid: 6785fad2128db234186b9cb81dc9df66,
         type: 3}
       propertyPath: m_Layer
@@ -991,6 +1047,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.016
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083501151425157549, guid: 6785fad2128db234186b9cb81dc9df66,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.95
       objectReference: {fileID: 0}
     - target: {fileID: 6824746026288583490, guid: 6785fad2128db234186b9cb81dc9df66,
         type: 3}
