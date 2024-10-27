@@ -26,6 +26,14 @@ namespace CruiserTerminal
             NetworkManager.Singleton.AddNetworkPrefab(CTPlugin.terminalPrefab);
         }
 
+        [HarmonyPrefix, HarmonyPatch(typeof(VehicleController), "DestroyCar")]
+        static void DestroyCarPatch()
+        {
+            var cterminal = GameObject.Find("CruiserTerminal(Clone)").GetComponent<CruiserTerminal>();
+            if (cterminal.cruiserTerminalInUse)
+                cterminal.QuitCruiserTerminal();
+        }
+
         [HarmonyPostfix, HarmonyPatch(typeof(Terminal), "OnDisable"), HarmonyPatch(typeof(VehicleController), "OnDisable")]
         static void TerminalOnDisablePostfix()
         {
