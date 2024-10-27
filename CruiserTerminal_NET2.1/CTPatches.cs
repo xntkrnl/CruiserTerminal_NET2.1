@@ -26,8 +26,8 @@ namespace CruiserTerminal
             NetworkManager.Singleton.AddNetworkPrefab(CTPlugin.terminalPrefab);
         }
 
-        [HarmonyPostfix, HarmonyPatch(typeof(Terminal), "OnDisable"), HarmonyPatch(typeof(VehicleController), "DestroyCar"), HarmonyPatch(typeof(VehicleController), "OnDisable")]
-        static void TerminalOnDisablePatch()
+        [HarmonyPostfix, HarmonyPatch(typeof(Terminal), "OnDisable"), HarmonyPatch(typeof(VehicleController), "OnDisable")]
+        static void TerminalOnDisablePostfix()
         {
             CTPlugin.mls.LogInfo("Destroying the terminal in a cruiser");
             GameObject.Destroy(GameObject.Find("CruiserTerminal(Clone)"));

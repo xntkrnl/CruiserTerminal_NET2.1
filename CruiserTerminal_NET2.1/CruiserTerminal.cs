@@ -65,7 +65,7 @@ namespace CruiserTerminal
             cruiserTerminal.transform.position = terminalPos.transform.position;
             cruiserTerminal.transform.rotation = terminalPos.transform.rotation;
 
-            if (cruiserTerminalInUse)
+            if (cruiserTerminalInUse && !cruiserController.carDestroyed)
             {
                 //Destroy(canvasMainContainer);
                 //canvasMainContainer = CloneCanvas();
@@ -90,13 +90,17 @@ namespace CruiserTerminal
         //PlayerControllerB is not needed for scripts, but i need it to .AddListener() at Start()
         public void BeginUsingCruiserTerminal()
         {
-            StartCoroutine(waitUntilFrameEndToSetActive(true));
             cruiserController.SetVehicleCollisionForPlayer(false, GameNetworkManager.Instance.localPlayerController);
+
+            if (cruiserController.carDestroyed)
+                return;
+
+            StartCoroutine(waitUntilFrameEndToSetActive(true));
             terminalScript.BeginUsingTerminal();
             CTNH.SetCruiserTerminalInUseServerRpc(true);
             cruiserTerminalInUse = true;
 
-            HUDManager.Instance.PingHUDElement(HUDManager.Instance.Clock, 1f, 0f, 0f);
+            HUDManager.Instance.PingHUDElement(HUDManager.Instance.Clock, 1f, 1f, 0.2f);
         }
 
         public void QuitCruiserTerminal()
