@@ -65,13 +65,13 @@ namespace CruiserTerminal
                 __result = true;
         }
         
-        [HarmonyPostfix, HarmonyPatch(typeof(Terminal), "KickOffTerminalClientRpc")]
+       /* [HarmonyPostfix, HarmonyPatch(typeof(Terminal), "KickOffTerminalClientRpc")]
         static void KickOffTerminalClientRpcPatch()
         {
             if (cterminal == null) return;
 
             if (cterminal.cruiserTerminalInUse)
-                cterminal.QuitCruiserTerminal();
-        }
+                cterminal.SetCruiserTerminalNoLongerInUse();
+        }*/
     }
 }
