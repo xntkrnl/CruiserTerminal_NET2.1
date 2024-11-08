@@ -87,7 +87,6 @@ namespace CruiserTerminal
             return Instantiate(GameObject.Find("Environment/HangarShip/Terminal/Canvas/MainContainer"), GameObject.Find("CruiserTerminal(Clone)/Canvas").transform);
         }
 
-        //PlayerControllerB is not needed for scripts, but i need it to .AddListener() at Start()
         public void BeginUsingCruiserTerminal()
         {
             cruiserController.SetVehicleCollisionForPlayer(false, GameNetworkManager.Instance.localPlayerController);

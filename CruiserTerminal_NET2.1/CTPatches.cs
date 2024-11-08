@@ -7,6 +7,8 @@ namespace CruiserTerminal
 {
     public static class CTPatches
     {
+        private static CruiserTerminal cterminal;
+
         [HarmonyPostfix, HarmonyPatch(typeof(VehicleController), "Awake")]
         static void StartPatch()
         {
@@ -16,6 +18,8 @@ namespace CruiserTerminal
             terminalPosition.name = "terminalPosition";
             terminalPosition.transform.SetParent(GameObject.Find("CompanyCruiser(Clone)").transform);
             terminalPosition.transform.localPosition = new Vector3(1.293f, 0.938f, -3.274f);
+
+            cterminal = GameObject.Find("CruiserTerminal(Clone)").GetComponent<CruiserTerminal>();
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(GameNetworkManager), "Start")]
@@ -29,7 +33,6 @@ namespace CruiserTerminal
         [HarmonyPrefix, HarmonyPatch(typeof(VehicleController), "DestroyCar")]
         static void DestroyCarPatch()
         {
-            var cterminal = GameObject.Find("CruiserTerminal(Clone)").GetComponent<CruiserTerminal>();
             if (cterminal.cruiserTerminalInUse)
                 cterminal.QuitCruiserTerminal();
         }
@@ -45,10 +48,9 @@ namespace CruiserTerminal
         [HarmonyPostfix, HarmonyPatch(typeof(Terminal), "SetTerminalInUseClientRpc")]
         static void SetTerminalInUsePatch(ref bool ___terminalInUse)
         {
-            var cruiserTerminalTrigger = GameObject.Find("CruiserTerminal(Clone)");
-            if (cruiserTerminalTrigger != null)
+            if (cterminal != null)
             {
-                cruiserTerminalTrigger.GetComponent<CTNetworkHandler>().SetCruiserTerminalInteractableServerRpc(!___terminalInUse);
+                cterminal.gameObject.GetComponent<CTNetworkHandler>().SetCruiserTerminalInteractableServerRpc(!___terminalInUse);
                 CTPlugin.mls.LogInfo("cruiser terminal interactable = " + !___terminalInUse);
             }
         }
@@ -56,13 +58,20 @@ namespace CruiserTerminal
         [HarmonyPostfix, HarmonyPatch(typeof(ManualCameraRenderer), "MeetsCameraEnabledConditions")]
         static void MeetsCameraEnabledConditionsPatch(ref bool __result)
         {
-            var cterminal = GameObject.Find("CruiserTerminal(Clone)");
-
             if (StartOfRound.Instance == null || cterminal == null)
                 return;
 
-            if (cterminal.GetComponent<CruiserTerminal>().cruiserTerminalInUse)
+            if (cterminal.cruiserTerminalInUse)
                 __result = true;
+        }
+        
+        [HarmonyPostfix, HarmonyPatch(typeof(Terminal), "KickOffTerminalClientRpc")]
+        static void KickOffTerminalClientRpcPatch()
+        {
+            if (cterminal == null) return;
+
+            if (cterminal.cruiserTerminalInUse)
+                cterminal.QuitCruiserTerminal();
         }
     }
 }
