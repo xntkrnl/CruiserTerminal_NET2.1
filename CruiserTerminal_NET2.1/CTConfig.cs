@@ -18,6 +18,17 @@ namespace CruiserTerminal
             invTime = cfg.Bind("Health", "Terminal invulnerability time", 1f, "The terminal's invulnerability time after receiving a hit.\n" +
                 "Setting 0 will result in the possibility of one hit being triggered multiple times.\n" +
                 "If the value is below 0, it will set the value to 1.");
+
+            ConfigCheck();
+        }
+
+        private static void ConfigCheck()
+        {
+            if(maxHealth.Value < 1)
+                maxHealth.Value = 1;
+
+            if(invTime.Value < 0)
+                invTime.Value = 1;
         }
     }
 }
