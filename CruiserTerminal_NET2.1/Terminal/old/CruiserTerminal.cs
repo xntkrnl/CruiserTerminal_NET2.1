@@ -1,8 +1,8 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace CruiserTerminal
+namespace CruiserTerminal.Terminal.old
 {
     public class CruiserTerminal : MonoBehaviour
     {
@@ -39,10 +39,10 @@ namespace CruiserTerminal
 
             terminalScript = GameObject.Find("Environment/HangarShip/Terminal/TerminalTrigger/TerminalScript").GetComponent<Terminal>();
 
-            cruiserTerminal = base.gameObject;
+            cruiserTerminal = gameObject;
 
             interactTrigger = GameObject.Find("CruiserTerminal(Clone)/TerminalTrigger/Trigger").GetComponent<InteractTrigger>();
-            CTNH = base.gameObject.GetComponent<CTNetworkHandler>();
+            CTNH = gameObject.GetComponent<CTNetworkHandler>();
 
             terminalInteractTrigger = terminalScript.gameObject.GetComponent<InteractTrigger>();
 
@@ -147,7 +147,7 @@ namespace CruiserTerminal
                 canvasMainContainer.transform.localPosition = new Vector3(-0.03f, 1.4f, 0.011f);
                 canvasMainContainer.transform.localScale = new Vector3(0.004f, 0.0043f, 0.0016f);
                 canvasMainContainer.transform.localRotation = Quaternion.Euler(new Vector3(0f, 90f, 0f));
-                
+
             }
             else
             {
@@ -160,3 +160,4 @@ namespace CruiserTerminal
         }
     }
 }
+*/
