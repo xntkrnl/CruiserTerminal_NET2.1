@@ -9,22 +9,21 @@ namespace CruiserTerminal.Terminal
 {
     public class CruiserTerminalScript : NetworkBehaviour, IHittable
     {
-        #region health
         private int maxHealth;
         private int health;
         private float invTime;
         private bool canBeHit;
         private bool canDestroy;
         private bool isDestroyed;
-        #endregion
+        private bool punishment;
+        private float penalty;
 
         private Transform cruiserTerminal;
         private Transform cruiserTerminalPos;
 
-        #region healthMethods
         bool IHittable.Hit(int force, Vector3 hitDirection, GameNetcodeStuff.PlayerControllerB playerWhoHit, bool playHitSFX, int hitID)
         {
-            if (!canDestroy)
+            if (!canDestroy || isDestroyed)
                 return true;
 
             CTPlugin.mls.LogInfo("Terminal hit!");
@@ -44,14 +43,21 @@ namespace CruiserTerminal.Terminal
 
             if (health == 0)
             {
-                TerminalExplosionClientRPC();
+                TerminalExplosionClientRPC(punishment);
+                if (punishment)
+                {
+                    StartOfRound.Instance.companyBuyingRate -= penalty;
+                    StartOfRound.Instance.SyncCompanyBuyingRateServerRpc();
+                }
             }
         }
 
         [ClientRpc]
-        void TerminalExplosionClientRPC()
+        void TerminalExplosionClientRPC(bool punish)
         {
             StartCoroutine(TerminalMalfunction());
+            if (punish)
+                HUDManager.Instance.DisplayTip("Cruiser Terminal not responding", "The Сompany's property was damaged. You will be punished for this.");
         }
 
         private IEnumerator TerminalMalfunction()
@@ -70,7 +76,6 @@ namespace CruiserTerminal.Terminal
             yield return new WaitForSeconds(invTime);
             canBeHit = true;
         }
-        #endregion
 
         private void Start()
         {
@@ -80,6 +85,8 @@ namespace CruiserTerminal.Terminal
             canBeHit = true;
             canDestroy = CTConfig.canDestroy.Value;
             isDestroyed = false;
+            punishment = CTConfig.enablePenalty.Value;
+            penalty = CTConfig.penalty.Value;
 
             cruiserTerminal = base.gameObject.transform;
             cruiserTerminalPos = FindAnyObjectByType<CruiserTerminalPosition>().transform;
