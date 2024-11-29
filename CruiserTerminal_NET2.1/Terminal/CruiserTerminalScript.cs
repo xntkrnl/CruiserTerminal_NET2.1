@@ -10,12 +10,23 @@ namespace CruiserTerminal.Terminal
     public class CruiserTerminalScript : NetworkBehaviour, IHittable
     {
         //TODO: make config
-        public int health;
+        private int maxHealth; //config
+        private int health;
+
+        private float invTime; //config
+        private bool canBeHit;
+        private bool canDestroy;
+        private bool isDestroyed;
+
         private Transform cruiserTerminal;
         private Transform cruiserTerminalPos;
 
+
         bool IHittable.Hit(int force, Vector3 hitDirection, GameNetcodeStuff.PlayerControllerB playerWhoHit, bool playHitSFX, int hitID)
         {
+            if (!canDestroy)
+                return true;
+
             CTPlugin.mls.LogInfo("Terminal hit!");
             TerminalExplosionServerRPC();
             return true;
@@ -24,12 +35,16 @@ namespace CruiserTerminal.Terminal
         [ServerRpc]
         void TerminalExplosionServerRPC()
         {
-            health--;
+            //TODO: On cruiser damage
+            if (canBeHit)
+            {
+                health--;
+                StartCoroutine(InvulnerabilityTime());
+            }
+
             if (health == 0)
             {
                 TerminalExplosionClientRPC();
-
-                //base.gameObject.GetComponent<NetworkObject>().Despawn();
             }
         }
 
@@ -49,9 +64,22 @@ namespace CruiserTerminal.Terminal
             Landmine.SpawnExplosion(gameObject.transform.position, true, 0, 3, 5, 1);
         }
 
+        private IEnumerator InvulnerabilityTime()
+        {
+            canBeHit = false;
+            yield return new WaitForSeconds(invTime);
+            canBeHit = true;
+        }
+
         private void Start()
         {
-            health = 2;
+            maxHealth = 2;
+            health = maxHealth;
+            invTime = 1f;
+            canBeHit = true;
+            canDestroy = true;
+            isDestroyed = false;
+
             cruiserTerminal = base.gameObject.transform;
             cruiserTerminalPos = FindAnyObjectByType<CruiserTerminalPosition>().transform;
 
