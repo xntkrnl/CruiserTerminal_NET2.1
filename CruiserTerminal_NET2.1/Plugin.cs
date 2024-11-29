@@ -52,7 +52,7 @@ namespace CruiserTerminal
             mls = BepInEx.Logging.Logger.CreateLogSource("Cruiser Terminal");
             mls = Logger;
 
-            var cfg = new ConfigFile(Path.Combine(Paths.ConfigPath, "mborsh.WiderShipMod.cfg"), true);
+            var cfg = new ConfigFile(Path.Combine(Paths.ConfigPath, "mborsh.CruiserTerminal.cfg"), true);
             CTConfig.Config(cfg);
 
             if (!LoadAssetBundle())
