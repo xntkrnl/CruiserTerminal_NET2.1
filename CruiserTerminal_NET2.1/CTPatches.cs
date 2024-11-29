@@ -9,7 +9,7 @@ namespace CruiserTerminal
     {
         private static CruiserTerminal cterminal;
 
-        [HarmonyPostfix, HarmonyPatch(typeof(VehicleController), "Awake")]
+        [HarmonyPostfix, HarmonyPatch(typeof(VehicleController), "OnNetworkSpawn")]
         static void StartPatch()
         {
             CTFunctions.Spawn();
