@@ -9,19 +9,19 @@ namespace CruiserTerminal.Terminal
 {
     public class CruiserTerminalScript : NetworkBehaviour, IHittable
     {
-        //TODO: make config
-        private int maxHealth; //config
+        #region health
+        private int maxHealth;
         private int health;
-
-        private float invTime; //config
+        private float invTime;
         private bool canBeHit;
         private bool canDestroy;
         private bool isDestroyed;
+        #endregion
 
         private Transform cruiserTerminal;
         private Transform cruiserTerminalPos;
 
-
+        #region healthMethods
         bool IHittable.Hit(int force, Vector3 hitDirection, GameNetcodeStuff.PlayerControllerB playerWhoHit, bool playHitSFX, int hitID)
         {
             if (!canDestroy)
@@ -70,14 +70,15 @@ namespace CruiserTerminal.Terminal
             yield return new WaitForSeconds(invTime);
             canBeHit = true;
         }
+        #endregion
 
         private void Start()
         {
-            maxHealth = 2;
+            maxHealth = CTConfig.maxHealth.Value;
             health = maxHealth;
-            invTime = 1f;
+            invTime = CTConfig.invTime.Value;
             canBeHit = true;
-            canDestroy = true;
+            canDestroy = CTConfig.canDestroy.Value;
             isDestroyed = false;
 
             cruiserTerminal = base.gameObject.transform;

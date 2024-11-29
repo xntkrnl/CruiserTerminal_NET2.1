@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 using CruiserTerminal.Patches;
 using HarmonyLib;
@@ -51,14 +52,17 @@ namespace CruiserTerminal
             mls = BepInEx.Logging.Logger.CreateLogSource("Cruiser Terminal");
             mls = Logger;
 
-            mls.LogInfo("Cruiser Terminal loaded. Patching.");
-            harmony.PatchAll(typeof(CTPatches));
+            var cfg = new ConfigFile(Path.Combine(Paths.ConfigPath, "mborsh.WiderShipMod.cfg"), true);
+            CTConfig.Config(cfg);
 
             if (!LoadAssetBundle())
             {
                 mls.LogError("Failed to load asset bundle! Abort mission!");
                 return;
             }
+
+            mls.LogInfo("Cruiser Terminal loaded. Patching.");
+            harmony.PatchAll(typeof(CTPatches));
 
             bool LoadAssetBundle()
             {

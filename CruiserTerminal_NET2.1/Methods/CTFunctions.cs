@@ -1,7 +1,7 @@
 ﻿using Unity.Netcode;
 using UnityEngine;
 
-namespace CruiserTerminal
+namespace CruiserTerminal.Methods
 {
     public static class CTFunctions
     {
@@ -19,7 +19,7 @@ namespace CruiserTerminal
 
             if (NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsServer)
             {
-                var terminal = GameObject.Instantiate(CTPlugin.terminalPrefab);
+                var terminal = Object.Instantiate(CTPlugin.terminalPrefab);
                 terminal.GetComponent<NetworkObject>().Spawn();
             }
         }
