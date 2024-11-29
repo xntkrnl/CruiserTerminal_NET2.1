@@ -57,7 +57,7 @@ namespace CruiserTerminal.Terminal
         {
             StartCoroutine(TerminalMalfunction());
             if (punish)
-                HUDManager.Instance.DisplayTip("Cruiser Terminal not responding", "The Сompany's property was damaged. You will be punished for this.");
+                HUDManager.Instance.DisplayTip("Cruiser Terminal", "The Company's property was damaged. You will be punished for this.");
         }
 
         private IEnumerator TerminalMalfunction()
