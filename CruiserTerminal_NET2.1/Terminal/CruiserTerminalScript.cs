@@ -23,25 +23,28 @@ namespace CruiserTerminal.Terminal
 
         bool IHittable.Hit(int force, Vector3 hitDirection, GameNetcodeStuff.PlayerControllerB playerWhoHit, bool playHitSFX, int hitID)
         {
-            if (!canDestroy || isDestroyed)
+            if (isDestroyed)
                 return true;
 
-            CTPlugin.mls.LogInfo("Terminal hit!");
-            TerminalExplosionServerRPC();
+            CTPlugin.mls.LogInfo($"Terminal hit! Force: {force}");
+            TerminalExplosionServerRPC(force);
             return true;
         }
 
         [ServerRpc]
-        void TerminalExplosionServerRPC()
+        void TerminalExplosionServerRPC(int force)
         {
+            if (force <= 0 || !canBeHit || isDestroyed || !canDestroy)
+                return;
+
             //TODO: On cruiser damage
             if (canBeHit)
             {
-                health--;
+                health -= force;
                 StartCoroutine(InvulnerabilityTime());
             }
 
-            if (health == 0)
+            if (health <= 0 && !isDestroyed)
             {
                 TerminalExplosionClientRPC(punishment);
                 if (punishment)
@@ -58,6 +61,7 @@ namespace CruiserTerminal.Terminal
             StartCoroutine(TerminalMalfunction());
             if (punish)
                 HUDManager.Instance.DisplayTip("Cruiser Terminal", "The Company's property was damaged. You will be punished for this.");
+            isDestroyed = true;
         }
 
         private IEnumerator TerminalMalfunction()
