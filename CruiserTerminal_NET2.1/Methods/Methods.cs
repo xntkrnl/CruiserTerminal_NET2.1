@@ -9,6 +9,7 @@ namespace CruiserTerminal.Methods
     {
         private static bool isSpawned;
         private static bool isHostOrServer;
+        private static NetworkObject terminalNO;
 
         internal static void Init()
         {
@@ -24,7 +25,7 @@ namespace CruiserTerminal.Methods
             {
                 var terminalGO = GameObject.Instantiate(CTPlugin.terminalPrefab);
                 CTPatches.cterminal = terminalGO.GetComponent<CruiserTerminalScript>();
-                var terminalNO = terminalGO.GetComponent<NetworkObject>();
+                terminalNO = terminalGO.GetComponent<NetworkObject>();
 
                 terminalNO.Spawn();
             }
@@ -36,6 +37,14 @@ namespace CruiserTerminal.Methods
             terminalPosition.transform.localPosition = new Vector3(1.293f, 0.938f, -3.274f);
 
             isSpawned = true;
+        }
+
+        internal static void Despawn()
+        {
+            if (isHostOrServer)
+                terminalNO.Despawn();
+
+            isSpawned = false;
         }
     }
 }

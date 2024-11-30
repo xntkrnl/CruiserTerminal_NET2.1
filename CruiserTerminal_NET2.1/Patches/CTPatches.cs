@@ -37,6 +37,30 @@ namespace CruiserTerminal.Patches
             cterminal.TerminalExplosionServerRpc(CTConfig.cruiserDamage.Value);
         }
 
-        
+        [HarmonyPostfix, HarmonyPatch(typeof(VehicleController), "OnDisable")]
+        static void OnDisablePatch()
+        {
+            CTMethods.Despawn();
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(Terminal), "SetTerminalInUseClientRpc")]
+        static void SetTerminalInUsePatch(ref bool ___terminalInUse)
+        {
+            if (cterminal == null)
+                return;
+
+            cterminal.SetTerminalBusyServerRpc(!___terminalInUse);
+            CTPlugin.mls.LogInfo("cruiser terminal interactable:" + !___terminalInUse);
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(ManualCameraRenderer), "MeetsCameraEnabledConditions")]
+        static void MeetsCameraEnabledConditionsPatch(ref bool __result)
+        {
+            if (StartOfRound.Instance == null || cterminal == null)
+                return;
+
+            if (cterminal.cruiserTerminalInUse)
+                __result = true;
+        }
     }
 }
