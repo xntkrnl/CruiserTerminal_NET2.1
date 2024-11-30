@@ -1,5 +1,5 @@
 ﻿using CruiserTerminal.Methods;
-using CruiserTerminal.Terminal;
+using CruiserTerminal.CTerminal;
 using HarmonyLib;
 using System;
 using Unity.Netcode;
