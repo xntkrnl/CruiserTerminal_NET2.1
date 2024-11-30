@@ -21,6 +21,7 @@ namespace CruiserTerminal.CTerminal
         public bool cruiserTerminalInUse;
         private InteractTrigger interactTrigger;
         private Transform canvasMainContainer;
+        private float timeSinceLastKeyboardPress;
 
         private PlayerActions playerActions;
 
@@ -41,12 +42,12 @@ namespace CruiserTerminal.CTerminal
                 return true;
 
             CTPlugin.mls.LogInfo($"Terminal hit! Force: {force}");
-            TerminalExplosionServerRPC(force);
+            TerminalExplosionServerRpc(force);
             return true;
         }
 
         [ServerRpc]
-        private void TerminalExplosionServerRPC(int force)
+        private void TerminalExplosionServerRpc(int force)
         {
             if (force <= 0 || !canBeHit || isDestroyed || !canDestroy)
                 return;
@@ -60,7 +61,7 @@ namespace CruiserTerminal.CTerminal
 
             if (health <= 0 && !isDestroyed)
             {
-                TerminalExplosionClientRPC(punishment);
+                TerminalExplosionClientRpc(punishment);
                 if (punishment)
                 {
                     StartOfRound.Instance.companyBuyingRate -= penalty;
@@ -70,16 +71,35 @@ namespace CruiserTerminal.CTerminal
         }
 
         [ClientRpc]
-        private void TerminalExplosionClientRPC(bool punish)
+        private void TerminalExplosionClientRpc(bool punish)
         {
+            if (cruiserTerminalInUse)
+                QuitCruiserTerminal();
+
             StartCoroutine(TerminalMalfunction());
             if (punish)
                 HUDManager.Instance.DisplayTip("Cruiser Terminal", "The Company's property was damaged. You will be punished for this.");
             isDestroyed = true;
         }
 
+        [ServerRpc]
+        private void PlayAudioClipServerRpc(bool active)
+        {
+            PlayAudioClipClientRpc(active);
+        }
+
+        [ClientRpc]
+        private void PlayAudioClipClientRpc(bool active)
+        {
+            if (active)
+                audioSource.PlayOneShot(enterTerminalAudioClip);
+            else 
+                audioSource.PlayOneShot(exitTerminalAudioClip);
+        }
+
         private IEnumerator TerminalMalfunction()
         {
+            //explosions are cool
             yield return new WaitForSeconds(0.1f);
             Landmine.SpawnExplosion(gameObject.transform.position, true, 0, 2, 5, 1);
             yield return new WaitForSeconds(0.6f);
@@ -132,11 +152,29 @@ namespace CruiserTerminal.CTerminal
         {
             cruiserTerminal.position = cruiserTerminalPos.position;
             cruiserTerminal.rotation = cruiserTerminalPos.rotation;
+
+            if (cruiserTerminalInUse)
+            {
+                if (Keyboard.current.anyKey.wasPressedThisFrame)
+                {
+                    if (timeSinceLastKeyboardPress > 0.07f)
+                    {
+                        timeSinceLastKeyboardPress = 0f;
+                        RoundManager.PlayRandomClip(audioSource, keyboardAudioClips);
+                    }
+                }
+                timeSinceLastKeyboardPress += Time.deltaTime;
+            }
         }
 
         public void BeginUsingCruiserTerminal(PlayerControllerB nullPlayer)
         {
             playerActions.Movement.OpenMenu.performed += PressESC; //start listen esc key
+
+            if (isDestroyed)
+                return;
+
+            PlayAudioClipServerRpc(true);
             cruiserTerminalInUse = true;
             StartCoroutine(waitUntilFrameEndAndParent(true));
             terminalScript.BeginUsingTerminal();
@@ -146,8 +184,12 @@ namespace CruiserTerminal.CTerminal
         public void QuitCruiserTerminal()
         {
             playerActions.Movement.OpenMenu.performed -= PressESC; //stop listen esc key
-            StartCoroutine(waitUntilFrameEndAndParent(false));
-            terminalScript.QuitTerminal();
+            if (!isDestroyed)
+            {
+                StartCoroutine(waitUntilFrameEndAndParent(false));
+                terminalScript.QuitTerminal();
+                PlayAudioClipServerRpc(false);
+            }
             interactTrigger.StopSpecialAnimation();
         }
 
