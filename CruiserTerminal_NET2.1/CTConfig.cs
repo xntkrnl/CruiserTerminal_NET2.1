@@ -12,6 +12,8 @@ namespace CruiserTerminal
         internal static ConfigEntry<float> invTime;
         internal static ConfigEntry<bool> enablePenalty;
         internal static ConfigEntry<float> penalty;
+        internal static ConfigEntry<bool> canCruiserDamage;
+        internal static ConfigEntry<int> cruiserDamage;
 
         internal static void Config(ConfigFile cfg)
         {
@@ -22,6 +24,8 @@ namespace CruiserTerminal
                 "If the value is below 0, it will set the value to 1.");
             enablePenalty = cfg.Bind("Health", "Enable penalty for destruction", true);
             penalty = cfg.Bind("Health", "Penalty amount", 0.05f, "Penalty amount.\nIf the value is below 0.01 or above 0.33, it will set the value to 0.05.");
+            canCruiserDamage = cfg.Bind("Health", "Can cruiser damage terminal", true, "Enables Cruiser Terminal damage from your driving skills.");
+            cruiserDamage = cfg.Bind("Health", "Cruiser damage", 1, "Damage from cruiser to terminal.\nIf the value is below 1, it will set the value to 1.");
 
             ConfigCheck();
         }
@@ -36,6 +40,9 @@ namespace CruiserTerminal
 
             if (penalty.Value < 0.01f || penalty.Value > 0.33f)
                 penalty.Value = 0.05f;
+
+            if (cruiserDamage.Value < 1)
+                cruiserDamage.Value = 1;
         }
     }
 }
