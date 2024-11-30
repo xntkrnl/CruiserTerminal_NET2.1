@@ -3,7 +3,6 @@ using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Utilities;
 
 namespace CruiserTerminal.CTerminal
 {
@@ -35,6 +34,8 @@ namespace CruiserTerminal.CTerminal
         private AudioClip enterTerminalAudioClip;
         private AudioClip exitTerminalAudioClip;
         private AudioClip[] keyboardAudioClips;
+
+        private VehicleController cruiserController;
 
         bool IHittable.Hit(int force, Vector3 hitDirection, GameNetcodeStuff.PlayerControllerB playerWhoHit, bool playHitSFX, int hitID)
         {
@@ -120,6 +121,7 @@ namespace CruiserTerminal.CTerminal
             cruiserTerminal = base.gameObject.transform;
             playerActions = new PlayerActions();
             playerActions.Movement.Enable();
+            cruiserController = FindAnyObjectByType<VehicleController>();
 
             interactTrigger = cruiserTerminal.Find("TerminalTrigger").gameObject.GetComponent<InteractTrigger>();
             //interactTrigger.onInteract.AddListener(BeginUsingCruiserTerminal);
@@ -199,10 +201,9 @@ namespace CruiserTerminal.CTerminal
             CTPlugin.mls.LogInfo($"Stop using cruiser terminal.");
         }
 
-
         private void PressESC(InputAction.CallbackContext context)
         {
-            if (context.performed && cruiserTerminalInUse)
+            if (context.performed)
             {
                 QuitCruiserTerminal();
             }
