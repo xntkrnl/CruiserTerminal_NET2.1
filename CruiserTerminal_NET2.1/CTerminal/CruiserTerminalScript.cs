@@ -204,9 +204,7 @@ namespace CruiserTerminal.CTerminal
         private void PressESC(InputAction.CallbackContext context)
         {
             if (context.performed)
-            {
                 QuitCruiserTerminal();
-            }
         }
 
         private IEnumerator waitUntilFrameEndAndParent(bool active)
