@@ -28,14 +28,13 @@ namespace CruiserTerminal.Patches
         [HarmonyPostfix, HarmonyPatch(typeof(VehicleController), "DestroyCarServerRpc")]
         static void DestroyCarServerRpcPatch() //i prob could use UnityEvent or Event but whatever
         {
-            cterminal.TerminalExplosionServerRpc(2147483647); //im so smart
+            cterminal.TerminalExplosionServerRpc(cterminal.health);
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(VehicleController), "DealDamageServerRpc")]
         static void DealDamageServerRpcPatch()
         {
-
-            cterminal.TerminalExplosionServerRpc(1);
+            cterminal.TerminalExplosionServerRpc(CTConfig.cruiserDamage.Value);
         }
 
         
