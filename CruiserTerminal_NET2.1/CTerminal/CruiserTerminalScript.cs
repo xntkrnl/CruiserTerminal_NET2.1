@@ -17,7 +17,7 @@ namespace CruiserTerminal.CTerminal
         private float penalty;
 
         public bool cruiserTerminalInUse;
-        public InteractTrigger interactTrigger;
+        private InteractTrigger interactTrigger;
         private Transform canvasMainContainer;
 
         private PlayerActions playerActions;
@@ -25,6 +25,13 @@ namespace CruiserTerminal.CTerminal
         private Transform cruiserTerminal;
         private Transform cruiserTerminalPos;
         private Transform terminal;
+
+        private Terminal terminalScript;
+
+        private AudioSource audioSource;
+        private AudioClip enterTerminalAudioClip;
+        private AudioClip exitTerminalAudioClip;
+        private AudioClip[] keyboardAudioClips;
 
         bool IHittable.Hit(int force, Vector3 hitDirection, GameNetcodeStuff.PlayerControllerB playerWhoHit, bool playHitSFX, int hitID)
         {
@@ -103,6 +110,11 @@ namespace CruiserTerminal.CTerminal
 
             cruiserTerminalInUse = false;
             canvasMainContainer = terminal.Find("Canvas"); //not that bad as GameObject.Find() ig but this is Start() so not that much dif?
+
+            audioSource = terminalScript.terminalAudio;
+            enterTerminalAudioClip = terminalScript.enterTerminalSFX;
+            exitTerminalAudioClip = terminalScript.leaveTerminalSFX;
+            keyboardAudioClips = terminalScript.keyboardClips;
         }
 
         private void Update()
