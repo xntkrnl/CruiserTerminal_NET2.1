@@ -11,6 +11,8 @@ namespace CruiserTerminal.Methods
 
         internal static void Spawn()
         {
+            if (isSpawned) return;
+
             if (NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsServer)
             {
                 var terminalGO = GameObject.Instantiate(CTPlugin.terminalPrefab);
