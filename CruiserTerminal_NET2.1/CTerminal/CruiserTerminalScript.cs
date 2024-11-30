@@ -9,7 +9,7 @@ namespace CruiserTerminal.CTerminal
     public class CruiserTerminalScript : NetworkBehaviour, IHittable
     {
         private int maxHealth;
-        private int health;
+        internal int health;
         private float invTime;
         private bool canBeHit;
         private bool canDestroy;
@@ -48,12 +48,11 @@ namespace CruiserTerminal.CTerminal
         }
 
         [ServerRpc]
-        private void TerminalExplosionServerRpc(int force)
+        internal void TerminalExplosionServerRpc(int force)
         {
             if (force <= 0 || !canBeHit || isDestroyed || !canDestroy)
                 return;
 
-            //TODO: On cruiser damage
             if (canBeHit)
             {
                 health -= force;

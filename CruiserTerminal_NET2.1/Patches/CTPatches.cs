@@ -21,7 +21,20 @@ namespace CruiserTerminal.Patches
         [HarmonyPostfix, HarmonyPatch(typeof(VehicleController), "Awake")]
         static void AwakePatch()
         {
+            CTMethods.Init();
             CTMethods.Spawn();
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(VehicleController), "DestroyCar")]
+        static void DestroyCarPatch() //i prob could use unity event but whatever
+        {
+            cterminal.TerminalExplosionServerRpc(2147483647); //im so smart
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(VehicleController), "DealDamageServerRpc")]
+        static void DealDamageServerRpcPatch()
+        {
+            cterminal.TerminalExplosionServerRpc(1);
         }
     }
 }
