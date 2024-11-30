@@ -29,11 +29,13 @@ namespace CruiserTerminal.CTerminal
         private Transform terminal;
 
         private Terminal terminalScript;
+        private InteractTrigger terminalInteractTrigger;
 
         private AudioSource audioSource;
         private AudioClip enterTerminalAudioClip;
         private AudioClip exitTerminalAudioClip;
         private AudioClip[] keyboardAudioClips;
+        private Light terminalLight;
 
         private VehicleController cruiserController;
 
@@ -82,21 +84,6 @@ namespace CruiserTerminal.CTerminal
             isDestroyed = true;
         }
 
-        [ServerRpc]
-        private void PlayAudioClipServerRpc(bool active)
-        {
-            PlayAudioClipClientRpc(active);
-        }
-
-        [ClientRpc]
-        private void PlayAudioClipClientRpc(bool active)
-        {
-            if (active)
-                audioSource.PlayOneShot(enterTerminalAudioClip);
-            else 
-                audioSource.PlayOneShot(exitTerminalAudioClip);
-        }
-
         private IEnumerator TerminalMalfunction()
         {
             //explosions are cool
@@ -128,6 +115,7 @@ namespace CruiserTerminal.CTerminal
             interactTrigger.onCancelAnimation.AddListener(SetTerminalNoLongerInUse);
 
             terminalScript = FindAnyObjectByType<Terminal>();
+            terminalInteractTrigger = terminalScript.gameObject.GetComponent<InteractTrigger>();
             terminal = terminalScript.transform.parent.parent;
             cruiserTerminalPos = FindAnyObjectByType<CruiserTerminalPosition>().transform;
 
@@ -147,6 +135,8 @@ namespace CruiserTerminal.CTerminal
             enterTerminalAudioClip = terminalScript.enterTerminalSFX;
             exitTerminalAudioClip = terminalScript.leaveTerminalSFX;
             keyboardAudioClips = terminalScript.keyboardClips;
+
+            terminalLight = cruiserTerminal.Find("terminalLight").GetComponent<Light>();
         }
 
         private void Update()
@@ -175,7 +165,7 @@ namespace CruiserTerminal.CTerminal
             if (isDestroyed)
                 return;
 
-            PlayAudioClipServerRpc(true);
+            SetInteractionServerRpc(true);
             cruiserTerminalInUse = true;
             StartCoroutine(waitUntilFrameEndAndParent(true));
             terminalScript.BeginUsingTerminal();
@@ -189,7 +179,6 @@ namespace CruiserTerminal.CTerminal
             {
                 StartCoroutine(waitUntilFrameEndAndParent(false));
                 terminalScript.QuitTerminal();
-                PlayAudioClipServerRpc(false);
             }
             interactTrigger.StopSpecialAnimation();
         }
@@ -197,6 +186,7 @@ namespace CruiserTerminal.CTerminal
         public void SetTerminalNoLongerInUse(PlayerControllerB nullPlayer)
         {
             cruiserTerminalInUse = false;
+            SetInteractionServerRpc(false);
             CTPlugin.mls.LogInfo($"Stop using cruiser terminal.");
         }
 
@@ -223,6 +213,25 @@ namespace CruiserTerminal.CTerminal
                 canvasMainContainer.localRotation = Quaternion.Euler(new Vector3(0f, 78.0969f, 90f));
             }
             yield return new WaitForEndOfFrame();
+        }
+
+        [ServerRpc]
+        internal void SetInteractionServerRpc(bool active)
+        {
+            SetInteractionClientRpc(active);
+        }
+
+        [ClientRpc]
+        private void SetInteractionClientRpc(bool active)
+        {
+            interactTrigger.interactable = active;
+            terminalInteractTrigger.interactable = active;
+            terminalLight.enabled = active;
+
+            if (active)
+                audioSource.PlayOneShot(enterTerminalAudioClip);
+            else
+                audioSource.PlayOneShot(exitTerminalAudioClip);
         }
     }
 }
