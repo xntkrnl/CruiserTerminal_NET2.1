@@ -1,4 +1,6 @@
-﻿using GameNetcodeStuff;
+﻿using CruiserTerminal.Methods;
+using GameNetcodeStuff;
+using System;
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -49,7 +51,7 @@ namespace CruiserTerminal.CTerminal
             return true;
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         internal void TerminalExplosionServerRpc(int force)
         {
             if (force <= 0 || !canBeHit || isDestroyed || !canDestroy)
@@ -165,7 +167,8 @@ namespace CruiserTerminal.CTerminal
             if (isDestroyed)
                 return;
 
-            SetInteractionServerRpc(true);
+            audioSource.PlayOneShot(enterTerminalAudioClip);
+            SetTerminalBusyServerRpc(true);
             cruiserTerminalInUse = true;
             StartCoroutine(waitUntilFrameEndAndParent(true));
             terminalScript.BeginUsingTerminal();
@@ -180,20 +183,23 @@ namespace CruiserTerminal.CTerminal
                 StartCoroutine(waitUntilFrameEndAndParent(false));
                 terminalScript.QuitTerminal();
             }
+            audioSource.PlayOneShot(exitTerminalAudioClip);
             interactTrigger.StopSpecialAnimation();
         }
 
         public void SetTerminalNoLongerInUse(PlayerControllerB nullPlayer)
         {
             cruiserTerminalInUse = false;
-            SetInteractionServerRpc(false);
+            SetTerminalBusyServerRpc(false);
             CTPlugin.mls.LogInfo($"Stop using cruiser terminal.");
         }
 
         private void PressESC(InputAction.CallbackContext context)
         {
             if (context.performed)
+            {
                 QuitCruiserTerminal();
+            }
         }
 
         private IEnumerator waitUntilFrameEndAndParent(bool active)
@@ -215,23 +221,19 @@ namespace CruiserTerminal.CTerminal
             yield return new WaitForEndOfFrame();
         }
 
-        [ServerRpc]
-        internal void SetInteractionServerRpc(bool active)
+        [ServerRpc(RequireOwnership = false)]
+        internal void SetTerminalBusyServerRpc(bool busy)
         {
-            SetInteractionClientRpc(active);
+            SetTerminalBusyClientRpc(busy);
         }
 
         [ClientRpc]
-        private void SetInteractionClientRpc(bool active)
+        internal void SetTerminalBusyClientRpc(bool busy)
         {
-            interactTrigger.interactable = active;
-            terminalInteractTrigger.interactable = active;
-            terminalLight.enabled = active;
-
-            if (active)
-                audioSource.PlayOneShot(enterTerminalAudioClip);
-            else
-                audioSource.PlayOneShot(exitTerminalAudioClip);
+            CTPlugin.mls.LogInfo($"Set interaction: {busy}");
+            interactTrigger.interactable = !busy;
+            terminalInteractTrigger.interactable = !busy;
+            terminalLight.enabled = busy;
         }
     }
 }
