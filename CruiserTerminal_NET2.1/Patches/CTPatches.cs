@@ -8,7 +8,7 @@ namespace CruiserTerminal.Patches
 {
     public static class CTPatches
     {
-        internal static CruiserTerminalScript cterminal;
+        public static CruiserTerminalScript cterminal;
 
         [HarmonyPostfix, HarmonyPatch(typeof(GameNetworkManager), "Start")]
         static void AddPrefabsToNetwork()
