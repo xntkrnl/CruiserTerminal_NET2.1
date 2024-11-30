@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using GameNetcodeStuff;
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 
 namespace CruiserTerminal.CTerminal
 {
@@ -95,8 +97,17 @@ namespace CruiserTerminal.CTerminal
 
         private void Start()
         {
-            terminal = FindAnyObjectByType<Terminal>().transform.parent.parent;
             cruiserTerminal = base.gameObject.transform;
+            playerActions = new PlayerActions();
+            playerActions.Movement.Enable();
+
+            interactTrigger = cruiserTerminal.Find("TerminalTrigger").gameObject.GetComponent<InteractTrigger>();
+            //interactTrigger.onInteract.AddListener(BeginUsingCruiserTerminal);
+            interactTrigger.onInteractEarly.AddListener(BeginUsingCruiserTerminal);
+            interactTrigger.onCancelAnimation.AddListener(SetTerminalNoLongerInUse);
+
+            terminalScript = FindAnyObjectByType<Terminal>();
+            terminal = terminalScript.transform.parent.parent;
             cruiserTerminalPos = FindAnyObjectByType<CruiserTerminalPosition>().transform;
 
             maxHealth = CTConfig.maxHealth.Value;
@@ -111,7 +122,7 @@ namespace CruiserTerminal.CTerminal
             cruiserTerminalInUse = false;
             canvasMainContainer = terminal.Find("Canvas"); //not that bad as GameObject.Find() ig but this is Start() so not that much dif?
 
-            audioSource = terminalScript.terminalAudio;
+            audioSource = cruiserTerminal.Find("TerminalTrigger/TerminalAudio").gameObject.GetComponent<AudioSource>();
             enterTerminalAudioClip = terminalScript.enterTerminalSFX;
             exitTerminalAudioClip = terminalScript.leaveTerminalSFX;
             keyboardAudioClips = terminalScript.keyboardClips;
@@ -123,18 +134,29 @@ namespace CruiserTerminal.CTerminal
             cruiserTerminal.rotation = cruiserTerminalPos.rotation;
         }
 
-        public void BeginUsingCruiserTerminal()
+        public void BeginUsingCruiserTerminal(PlayerControllerB nullPlayer)
         {
             playerActions.Movement.OpenMenu.performed += PressESC; //start listen esc key
             cruiserTerminalInUse = true;
+            StartCoroutine(waitUntilFrameEndAndParent(true));
+            terminalScript.BeginUsingTerminal();
+            CTPlugin.mls.LogInfo($"Begin using cruiser terminal.");
         }
 
         public void QuitCruiserTerminal()
         {
             playerActions.Movement.OpenMenu.performed -= PressESC; //stop listen esc key
-            cruiserTerminalInUse = false;
+            StartCoroutine(waitUntilFrameEndAndParent(false));
+            terminalScript.QuitTerminal();
             interactTrigger.StopSpecialAnimation();
         }
+
+        public void SetTerminalNoLongerInUse(PlayerControllerB nullPlayer)
+        {
+            cruiserTerminalInUse = false;
+            CTPlugin.mls.LogInfo($"Stop using cruiser terminal.");
+        }
+
 
         private void PressESC(InputAction.CallbackContext context)
         {
