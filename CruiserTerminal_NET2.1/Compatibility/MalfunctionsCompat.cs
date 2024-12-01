@@ -1,7 +1,7 @@
 ﻿using CruiserTerminal.Patches;
 using HarmonyLib;
 using Malfunctions;
-using Malfunctions.Patches
+using Malfunctions.Patches;
 
 
 
@@ -13,7 +13,7 @@ namespace CruiserTerminal.Compatibility
         //publicized
 
         [HarmonyPostfix, HarmonyPatch(typeof(StartOfRoundPatches), "HandleLevelStart")]
-        public void PowerSurgeEvent()
+        static void PowerSurgeEvent()
         {
             if (State.MalfunctionPower.Triggered)
             {
@@ -25,7 +25,7 @@ namespace CruiserTerminal.Compatibility
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(TimeOfDayPatches), "CheckMalfunctionDistortionTrigger")]
-        public void ElectroMagneticDistortionEvent()
+        static void ElectroMagneticDistortionEvent()
         {
             if (State.MalfunctionDistortion.Triggered)
             {

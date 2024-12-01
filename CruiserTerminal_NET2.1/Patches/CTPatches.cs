@@ -40,7 +40,15 @@ namespace CruiserTerminal.Patches
         [HarmonyPostfix, HarmonyPatch(typeof(VehicleController), "OnDisable")]
         static void OnDisablePatch()
         {
-            CTMethods.Despawn();
+            try
+            {
+                CTMethods.Despawn();
+            }
+            catch
+            {
+                CTPlugin.mls.LogError("Tried to destroy the terminal but it doesn't exist. If nothing broke then everything is ok =)");
+            }
+
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(Terminal), "SetTerminalInUseClientRpc")]
@@ -61,6 +69,13 @@ namespace CruiserTerminal.Patches
 
             if (cterminal.cruiserTerminalInUse)
                 __result = true;
+        }
+
+        [HarmonyPostfix, HarmonyPatch(typeof(StartOfRound), "ShipHasLeft")]
+        static void ShipHasLeftPatch()
+        {
+            cterminal.SetTerminalBusyServerRpc(false);
+            cterminal.ResetHp();
         }
     }
 }

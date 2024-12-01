@@ -118,6 +118,8 @@ namespace CruiserTerminal.CTerminal
 
         private void Start()
         {
+            CTConfig.ConfigCheck();
+
             cruiserTerminal = base.gameObject.transform;
             playerActions = new PlayerActions();
             playerActions.Movement.Enable();

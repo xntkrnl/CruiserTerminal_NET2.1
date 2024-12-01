@@ -30,7 +30,7 @@ namespace CruiserTerminal
             ConfigCheck();
         }
 
-        private static void ConfigCheck()
+        internal static void ConfigCheck()
         {
             if(maxHealth.Value < 1)
                 maxHealth.Value = 2;
