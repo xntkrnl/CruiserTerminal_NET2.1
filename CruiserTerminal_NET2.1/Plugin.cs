@@ -1,5 +1,8 @@
 ﻿using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
+using CruiserTerminal.Compatibility;
+using CruiserTerminal.Patches;
 using HarmonyLib;
 using System.IO;
 using System.Reflection;
@@ -7,13 +10,15 @@ using UnityEngine;
 
 namespace CruiserTerminal
 {
+    [BepInDependency("ainavt.lc.lethalconfig", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.zealsprince.malfunctions", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin(modGUID, modName, modVersion)]
     public class CTPlugin : BaseUnityPlugin
     {
         // Mod Details
         private const string modGUID = "mborsh.CruiserTerminal";
         private const string modName = "CruiserTerminal";
-        private const string modVersion = "1.0.0";
+        private const string modVersion = "1.1.0";
 
         private readonly Harmony harmony = new Harmony(modGUID);
 
@@ -50,14 +55,24 @@ namespace CruiserTerminal
             mls = BepInEx.Logging.Logger.CreateLogSource("Cruiser Terminal");
             mls = Logger;
 
-            mls.LogInfo("Cruiser Terminal loaded. Patching.");
-            harmony.PatchAll(typeof(CTPatches));
+            var cfg = new ConfigFile(Path.Combine(Paths.ConfigPath, "mborsh.CruiserTerminal.cfg"), true);
+            CTConfig.Config(cfg);
+
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("ainavt.lc.lethalconfig"))
+                LethalConfigCompat.LethalConfigSetup();
 
             if (!LoadAssetBundle())
             {
                 mls.LogError("Failed to load asset bundle! Abort mission!");
                 return;
             }
+
+            mls.LogInfo("Cruiser Terminal loaded. Patching.");
+
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.zealsprince.malfunctions"))
+                harmony.PatchAll(typeof(MalfunctionsCompat));
+
+            harmony.PatchAll(typeof(CTPatches));
 
             bool LoadAssetBundle()
             {
