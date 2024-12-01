@@ -15,7 +15,7 @@ namespace CruiserTerminal.CTerminal
         private float invTime;
         private bool canBeHit;
         private bool canDestroy;
-        private bool isDestroyed;
+        internal bool isDestroyed;
         private bool punishment;
         private float penalty;
 
@@ -104,6 +104,18 @@ namespace CruiserTerminal.CTerminal
             canBeHit = true;
         }
 
+        internal void ResetHp()
+        {
+            maxHealth = CTConfig.maxHealth.Value;
+            health = maxHealth;
+            invTime = CTConfig.invTime.Value;
+            canBeHit = true;
+            canDestroy = CTConfig.canDestroy.Value;
+            isDestroyed = false;
+            punishment = CTConfig.enablePenalty.Value;
+            penalty = CTConfig.penalty.Value;
+        }
+
         private void Start()
         {
             cruiserTerminal = base.gameObject.transform;
@@ -121,15 +133,6 @@ namespace CruiserTerminal.CTerminal
             terminal = terminalScript.transform.parent.parent;
             cruiserTerminalPos = FindAnyObjectByType<CruiserTerminalPosition>().transform;
 
-            maxHealth = CTConfig.maxHealth.Value;
-            health = maxHealth;
-            invTime = CTConfig.invTime.Value;
-            canBeHit = true;
-            canDestroy = CTConfig.canDestroy.Value;
-            isDestroyed = false;
-            punishment = CTConfig.enablePenalty.Value;
-            penalty = CTConfig.penalty.Value;
-
             cruiserTerminalInUse = false;
             canvasMainContainer = terminal.Find("Canvas"); //not that bad as GameObject.Find() ig but this is Start() so not that much dif?
 
@@ -139,6 +142,8 @@ namespace CruiserTerminal.CTerminal
             keyboardAudioClips = terminalScript.keyboardClips;
 
             terminalLight = cruiserTerminal.Find("terminalLight").GetComponent<Light>();
+
+            ResetHp();
         }
 
         private void Update()

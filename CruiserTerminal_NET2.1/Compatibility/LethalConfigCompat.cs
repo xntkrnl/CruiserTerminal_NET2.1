@@ -6,5 +6,9 @@ namespace CruiserTerminal.Compatibility
 {
     internal class LethalConfigCompat
     {
+        public void LethalConfigSetup()
+        {
+
+        }
     }
 }
