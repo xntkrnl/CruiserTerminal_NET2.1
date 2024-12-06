@@ -17,10 +17,12 @@ namespace CruiserTerminal.Compatibility
         {
             if (State.MalfunctionPower.Triggered && CTPatches.cterminal != null)
             {
+                CTPatches.cterminal.isDestroyed = true;
+                CTPatches.cterminal.shipPowerSurge = true;
+
                 if (CTPatches.cterminal.cruiserTerminalInUse)
                     CTPatches.cterminal.QuitCruiserTerminal();
 
-                CTPatches.cterminal.isDestroyed = true;
             }
         }
 
@@ -29,10 +31,11 @@ namespace CruiserTerminal.Compatibility
         {
             if (State.MalfunctionDistortion.Triggered && CTPatches.cterminal != null)
             {
+                CTPatches.cterminal.shipPowerSurge = true;
+                CTPatches.cterminal.isDestroyed = true;
+
                 if (CTPatches.cterminal.cruiserTerminalInUse)
                     CTPatches.cterminal.QuitCruiserTerminal();
-
-                CTPatches.cterminal.isDestroyed = true;
             }
         }
     }

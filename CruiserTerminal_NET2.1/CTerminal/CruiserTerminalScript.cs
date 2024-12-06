@@ -19,6 +19,8 @@ namespace CruiserTerminal.CTerminal
         private bool punishment;
         private float penalty;
 
+        internal bool shipPowerSurge = false;
+
         public bool cruiserTerminalInUse;
         private InteractTrigger interactTrigger;
         private Transform canvasMainContainer;
@@ -114,7 +116,9 @@ namespace CruiserTerminal.CTerminal
             isDestroyed = false;
             punishment = CTConfig.enablePenalty.Value;
             penalty = CTConfig.penalty.Value;
-        }
+
+            shipPowerSurge = false;
+    }
 
         private void Start()
         {
@@ -175,7 +179,7 @@ namespace CruiserTerminal.CTerminal
                 return;
 
             audioSource.PlayOneShot(enterTerminalAudioClip);
-            SetTerminalBusyServerRpc(true);
+            SetTerminalBusyServerRpc(true, false);
             cruiserTerminalInUse = true;
             StartCoroutine(waitUntilFrameEndAndParent(true));
             terminalScript.BeginUsingTerminal();
@@ -187,7 +191,6 @@ namespace CruiserTerminal.CTerminal
             playerActions.Movement.OpenMenu.performed -= PressESC; //stop listen esc key
             if (!isDestroyed)
             {
-                StartCoroutine(waitUntilFrameEndAndParent(false));
                 terminalScript.QuitTerminal();
             }
             audioSource.PlayOneShot(exitTerminalAudioClip);
@@ -197,7 +200,8 @@ namespace CruiserTerminal.CTerminal
         public void SetTerminalNoLongerInUse(PlayerControllerB nullPlayer)
         {
             cruiserTerminalInUse = false;
-            SetTerminalBusyServerRpc(false);
+            SetTerminalBusyServerRpc(false, shipPowerSurge);
+            StartCoroutine(waitUntilFrameEndAndParent(false));
             CTPlugin.mls.LogInfo($"Stop using cruiser terminal.");
         }
 
@@ -229,19 +233,32 @@ namespace CruiserTerminal.CTerminal
         }
 
         [ServerRpc(RequireOwnership = false)]
-        internal void SetTerminalBusyServerRpc(bool busy)
+        internal void SetTerminalBusyServerRpc(bool busy, bool powerSurge = false)
         {
-            SetTerminalBusyClientRpc(busy);
+            SetTerminalBusyClientRpc(busy, powerSurge);
         }
 
         [ClientRpc]
-        internal void SetTerminalBusyClientRpc(bool busy)
+        internal void SetTerminalBusyClientRpc(bool busy, bool powerSurge)
         {
+            
+
+
             CTPlugin.mls.LogInfo($"Set interaction: {busy}");
-            interactTrigger.interactable = !busy;
-            terminalInteractTrigger.interactable = !busy;
-            terminalLight.enabled = busy;
+            if (powerSurge)
+            {
+                interactTrigger.interactable = false;
+                terminalInteractTrigger.interactable = false;
+                terminalLight.enabled = false;
+            }
+            else
+            {
+                interactTrigger.interactable = !busy;
+                terminalInteractTrigger.interactable = !busy;
+                terminalLight.enabled = busy;
+            }
+
+
         }
     }
 }
-//nothing really changed in the end haha
