@@ -12,16 +12,16 @@
 
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\..\AppData\Roaming\com.kesomannen.gale\lethal-company\profiles\1\BepInEx\core\0Harmony.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\com.kesomannen.gale\lethal-company\profiles\test\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\..\..\Steam\steamapps\common\Lethal Company\Lethal Company_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>..\..\..\..\AppData\Roaming\com.kesomannen.gale\lethal-company\profiles\1\BepInEx\core\BepInEx.dll</HintPath>
+      <HintPath>..\..\WiderShipMod\WiderShipMod\bin\Debug\BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="LethalConfig">
-      <HintPath>..\..\..\..\AppData\Roaming\com.kesomannen.gale\lethal-company\profiles\1\BepInEx\plugins\AinaVT-LethalConfig\LethalConfig\LethalConfig.dll</HintPath>
+      <HintPath>bin\Debug\netstandard2.1\LethalConfig.dll</HintPath>
     </Reference>
     <Reference Include="Malfunctions">
       <HintPath>bin\Debug\netstandard2.1\Malfunctions_publicized.dll</HintPath>

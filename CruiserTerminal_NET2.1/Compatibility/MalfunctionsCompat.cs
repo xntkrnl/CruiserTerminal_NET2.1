@@ -15,7 +15,7 @@ namespace CruiserTerminal.Compatibility
         [HarmonyPostfix, HarmonyPatch(typeof(StartOfRoundPatches), "HandleLevelStart")]
         static void PowerSurgeEvent()
         {
-            if (State.MalfunctionPower.Triggered)
+            if (State.MalfunctionPower.Triggered && CTPatches.cterminal != null)
             {
                 if (CTPatches.cterminal.cruiserTerminalInUse)
                     CTPatches.cterminal.QuitCruiserTerminal();
@@ -27,7 +27,7 @@ namespace CruiserTerminal.Compatibility
         [HarmonyPostfix, HarmonyPatch(typeof(TimeOfDayPatches), "CheckMalfunctionDistortionTrigger")]
         static void ElectroMagneticDistortionEvent()
         {
-            if (State.MalfunctionDistortion.Triggered)
+            if (State.MalfunctionDistortion.Triggered && CTPatches.cterminal != null)
             {
                 if (CTPatches.cterminal.cruiserTerminalInUse)
                     CTPatches.cterminal.QuitCruiserTerminal();

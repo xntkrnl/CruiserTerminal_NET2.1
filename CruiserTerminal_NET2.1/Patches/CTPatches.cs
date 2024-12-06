@@ -46,7 +46,7 @@ namespace CruiserTerminal.Patches
             }
             catch
             {
-                CTPlugin.mls.LogError("Tried to destroy the terminal but it doesn't exist. If nothing broke then everything is ok =)");
+                CTPlugin.mls.LogError("Tried to despawn the terminal but it doesn't exist. If nothing broke then everything is ok =)");
             }
 
         }
@@ -57,7 +57,7 @@ namespace CruiserTerminal.Patches
             if (cterminal == null)
                 return;
 
-            cterminal.SetTerminalBusyServerRpc(!___terminalInUse);
+            cterminal.SetTerminalBusyServerRpc(___terminalInUse);
             CTPlugin.mls.LogInfo("cruiser terminal interactable:" + !___terminalInUse);
         }
 
@@ -74,6 +74,8 @@ namespace CruiserTerminal.Patches
         [HarmonyPostfix, HarmonyPatch(typeof(StartOfRound), "ShipHasLeft")]
         static void ShipHasLeftPatch()
         {
+            if (cterminal == null) return;
+
             cterminal.SetTerminalBusyServerRpc(false);
             cterminal.ResetHp();
         }
