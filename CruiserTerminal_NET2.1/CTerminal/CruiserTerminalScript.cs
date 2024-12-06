@@ -193,6 +193,7 @@ namespace CruiserTerminal.CTerminal
             {
                 terminalScript.QuitTerminal();
             }
+
             audioSource.PlayOneShot(exitTerminalAudioClip);
             interactTrigger.StopSpecialAnimation();
         }
@@ -241,10 +242,7 @@ namespace CruiserTerminal.CTerminal
         [ClientRpc]
         internal void SetTerminalBusyClientRpc(bool busy, bool powerSurge)
         {
-            
-
-
-            CTPlugin.mls.LogInfo($"Set interaction: {busy}");
+            CTPlugin.mls.LogInfo($"Set interaction: {busy}, power surge: {powerSurge}");
             if (powerSurge)
             {
                 interactTrigger.interactable = false;
@@ -257,8 +255,6 @@ namespace CruiserTerminal.CTerminal
                 terminalInteractTrigger.interactable = !busy;
                 terminalLight.enabled = busy;
             }
-
-
         }
     }
 }
