@@ -154,7 +154,7 @@ namespace CruiserTerminal.CTerminal
 
         private void Update()
         {
-            cruiserTerminal.position = cruiserTerminalPos.position;
+            cruiserTerminal.position = cruiserTerminalPos.position; //oh god why i did this i forgor
             cruiserTerminal.rotation = cruiserTerminalPos.rotation;
 
             if (cruiserTerminalInUse)
@@ -173,6 +173,7 @@ namespace CruiserTerminal.CTerminal
 
         public void BeginUsingCruiserTerminal(PlayerControllerB nullPlayer)
         {
+            cruiserController.SetVehicleCollisionForPlayer(false, GameNetworkManager.Instance.localPlayerController);
             playerActions.Movement.OpenMenu.performed += PressESC; //start listen esc key
 
             if (isDestroyed)
@@ -188,6 +189,7 @@ namespace CruiserTerminal.CTerminal
 
         public void QuitCruiserTerminal()
         {
+            cruiserController.SetVehicleCollisionForPlayer(true, GameNetworkManager.Instance.localPlayerController);
             playerActions.Movement.OpenMenu.performed -= PressESC; //stop listen esc key
             if (!isDestroyed)
             {
