@@ -12,6 +12,7 @@ namespace CruiserTerminal
 {
     [BepInDependency("ainavt.lc.lethalconfig", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.zealsprince.malfunctions", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("Toybox.LittleCompany", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin(modGUID, modName, modVersion)]
     public class CTPlugin : BaseUnityPlugin
     {
@@ -71,6 +72,9 @@ namespace CruiserTerminal
 
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.zealsprince.malfunctions"))
                 harmony.PatchAll(typeof(MalfunctionsCompat));
+
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Toybox.LittleCompany"))
+                harmony.PatchAll(typeof(LittleCompanyCompat));
 
             harmony.PatchAll(typeof(CTPatches));
 
