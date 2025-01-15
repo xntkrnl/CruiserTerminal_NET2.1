@@ -23,9 +23,6 @@
     <Reference Include="LethalConfig">
       <HintPath>bin\Debug\netstandard2.1\LethalConfig.dll</HintPath>
     </Reference>
-    <Reference Include="LittleCompany">
-      <HintPath>bin\Debug\netstandard2.1\publicized_assemblies\LittleCompany_publicized.dll</HintPath>
-    </Reference>
     <Reference Include="Malfunctions">
       <HintPath>bin\Debug\netstandard2.1\Malfunctions_publicized.dll</HintPath>
     </Reference>
