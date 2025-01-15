@@ -1,5 +1,156 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1055118934594404395
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4526534458918925743}
+  - component: {fileID: 1077495047467399546}
+  - component: {fileID: 1176155834241457340}
+  m_Layer: 9
+  m_Name: Trigger
+  m_TagString: InteractTrigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4526534458918925743
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055118934594404395}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.0122, y: 0.204, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9162199891633290334}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1077495047467399546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055118934594404395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 507293d35d7a13e5b9ca9bb60e082e11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverIcon: {fileID: 21300000, guid: 39dccaf3268dbfa4dac40448a80801c2, type: 3}
+  hoverTip: Interact
+  disabledHoverIcon: {fileID: 0}
+  disabledHoverTip: 
+  interactable: 1
+  oneHandedItemAllowed: 1
+  twoHandedItemAllowed: 0
+  holdInteraction: 0
+  timeToHold: 0.5
+  timeToHoldSpeedMultiplier: 1
+  holdTip: 
+  isBeingHeldByPlayer: 0
+  holdingInteractEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  touchTrigger: 0
+  triggerOnce: 0
+  interactCooldown: 1
+  cooldownTime: 1
+  currentCooldownValue: 0
+  disableTriggerMesh: 1
+  RandomChanceTrigger: 0
+  randomChancePercentage: 0
+  onInteractEarlyOtherClients:
+    m_PersistentCalls:
+      m_Calls: []
+  onInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  onInteractEarly:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 709458296371293019}
+        m_TargetAssemblyTypeName: CruiserTerminal.CruiserTerminal, CruiserTerminal
+        m_MethodName: BeginUsingCruiserTerminal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onStopInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  onCancelAnimation:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 709458296371293019}
+        m_TargetAssemblyTypeName: CruiserTerminal.CruiserTerminal, CruiserTerminal
+        m_MethodName: SetCruiserTerminalNoLongerInUse
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  specialCharacterAnimation: 1
+  stopAnimationManually: 1
+  stopAnimationString: SA_stopAnimation
+  hidePlayerItem: 1
+  isPlayingSpecialAnimation: 0
+  animationWaitTime: 2
+  animationString: SA_Typing
+  lockPlayerPosition: 1
+  playerPositionNode: {fileID: 9070955106727803155}
+  clampLooking: 0
+  setVehicleAnimation: 0
+  minVerticalClamp: 0
+  maxVerticalClamp: 0
+  horizontalClamp: 0
+  allowUseWhileInAnimation: 0
+  overridePlayerParent: {fileID: 0}
+  isLadder: 0
+  topOfLadderPosition: {fileID: 0}
+  useRaycastToGetTopPosition: 0
+  bottomOfLadderPosition: {fileID: 0}
+  ladderHorizontalPosition: {fileID: 0}
+  ladderPlayerPositionNode: {fileID: 0}
+  usingLadder: 0
+--- !u!65 &1176155834241457340
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055118934594404395}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.4, y: 0.94, z: 0.79}
+  m_Center: {x: -0.17, y: 0.07, z: 0}
 --- !u!1 &1902778972306449171
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,8 +373,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.85954666, g: 1, b: 0.7311321, a: 1}
-  m_Intensity: 3.1830988
-  m_Range: 2
+  m_Intensity: 13.328636
+  m_Range: 7
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -284,7 +435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 40
+  m_Intensity: 167.49258
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -404,10 +555,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3786517524374196386}
   - component: {fileID: 706716823906555297}
-  - component: {fileID: 445550205898240829}
-  - component: {fileID: 6823286216195897732}
+  - component: {fileID: 709458296371293019}
   m_Layer: 30
-  m_Name: CruiserTerminal
+  m_Name: CruiserTerminalOriginal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -452,48 +602,32 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!65 &445550205898240829
-BoxCollider:
+--- !u!114 &709458296371293019
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3825936377857520712}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.7777486, y: 1.9545956, z: 2.2442086}
-  m_Center: {x: -0.22079262, y: 1.507795, z: -0.0032925606}
---- !u!65 &6823286216195897732
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3825936377857520712}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.6145409, y: 0.2630768, z: 2.7390404}
-  m_Center: {x: -0.9793874, y: -0.9547308, z: -0.014201999}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1963069308, guid: 64bb3cbbd816dbf4ba7965172a02e94b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cruiserTerminalInUse: 0
+  canvasMainContainer: {fileID: 0}
+  terminalScript: {fileID: 0}
+  cruiserTerminal: {fileID: 0}
+  interactTrigger: {fileID: 0}
+  terminalInteractTrigger: {fileID: 0}
+  cruiserTerminalAudio: {fileID: 0}
+  cruiserKeyboardClips: []
+  cruiserSyncedAudios: []
+  terminalPos: {fileID: 0}
+  enterTerminalSFX: {fileID: 0}
+  leaveTerminalSFX: {fileID: 0}
+  terminalLight: {fileID: 0}
+  cruiserController: {fileID: 0}
 --- !u!1 &6997028896703254842
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,7 +657,7 @@ Transform:
   m_GameObject: {fileID: 6997028896703254842}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.72, y: 0.50475913, z: -0.025}
+  m_LocalPosition: {x: -0.552, y: 0.50475913, z: -0.025}
   m_LocalScale: {x: 0.21945864, y: 0.2194586, z: 0.2194586}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -629,11 +763,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9162199891633290334}
-  - component: {fileID: 3203961697089022215}
-  - component: {fileID: 6403363210309520207}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: TerminalTrigger
-  m_TagString: InteractTrigger
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -651,104 +783,11 @@ Transform:
   m_LocalScale: {x: 5, y: 3.3333333, z: 3.3333333}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4526534458918925743}
   - {fileID: 5886270048860761122}
   - {fileID: 9070955106727803155}
   m_Father: {fileID: 3786517524374196386}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3203961697089022215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7259188311188359551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 507293d35d7a13e5b9ca9bb60e082e11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverIcon: {fileID: 21300000, guid: 39dccaf3268dbfa4dac40448a80801c2, type: 3}
-  hoverTip: Interact
-  disabledHoverIcon: {fileID: 0}
-  disabledHoverTip: 
-  interactable: 1
-  oneHandedItemAllowed: 1
-  twoHandedItemAllowed: 0
-  holdInteraction: 0
-  timeToHold: 0.5
-  timeToHoldSpeedMultiplier: 1
-  holdTip: 
-  isBeingHeldByPlayer: 0
-  holdingInteractEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  touchTrigger: 0
-  triggerOnce: 0
-  interactCooldown: 1
-  cooldownTime: 1
-  currentCooldownValue: 0
-  disableTriggerMesh: 1
-  RandomChanceTrigger: 0
-  randomChancePercentage: 0
-  onInteractEarlyOtherClients:
-    m_PersistentCalls:
-      m_Calls: []
-  onInteract:
-    m_PersistentCalls:
-      m_Calls: []
-  onInteractEarly:
-    m_PersistentCalls:
-      m_Calls: []
-  onStopInteract:
-    m_PersistentCalls:
-      m_Calls: []
-  onCancelAnimation:
-    m_PersistentCalls:
-      m_Calls: []
-  specialCharacterAnimation: 1
-  stopAnimationManually: 1
-  stopAnimationString: SA_stopAnimation
-  hidePlayerItem: 1
-  isPlayingSpecialAnimation: 0
-  animationWaitTime: 2
-  animationString: SA_Typing
-  lockPlayerPosition: 1
-  playerPositionNode: {fileID: 9070955106727803155}
-  clampLooking: 0
-  setVehicleAnimation: 0
-  minVerticalClamp: 0
-  maxVerticalClamp: 0
-  horizontalClamp: 0
-  allowUseWhileInAnimation: 0
-  overridePlayerParent: {fileID: 0}
-  isLadder: 0
-  topOfLadderPosition: {fileID: 0}
-  useRaycastToGetTopPosition: 0
-  bottomOfLadderPosition: {fileID: 0}
-  ladderHorizontalPosition: {fileID: 0}
-  ladderPlayerPositionNode: {fileID: 0}
-  usingLadder: 0
---- !u!65 &6403363210309520207
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7259188311188359551}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.4, y: 1.0597131, z: 0.79}
-  m_Center: {x: -0.17, y: 0.20577683, z: 0}
 --- !u!1001 &5038511021332240455
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -845,12 +884,12 @@ PrefabInstance:
     - target: {fileID: -5477749408508380018, guid: 6785fad2128db234186b9cb81dc9df66,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.70710677
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -5477749408508380018, guid: 6785fad2128db234186b9cb81dc9df66,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.70710677
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -5477749408508380018, guid: 6785fad2128db234186b9cb81dc9df66,
         type: 3}
@@ -859,13 +898,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5477749408508380018, guid: 6785fad2128db234186b9cb81dc9df66,
         type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: -5477749408508380018, guid: 6785fad2128db234186b9cb81dc9df66,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -90
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: -3542852092398272455, guid: 6785fad2128db234186b9cb81dc9df66,
         type: 3}

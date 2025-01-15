@@ -18,7 +18,7 @@ namespace CruiserTerminal
         // Mod Details
         private const string modGUID = "mborsh.CruiserTerminal";
         private const string modName = "CruiserTerminal";
-        private const string modVersion = "1.1.1";
+        private const string modVersion = "1.1.2";
 
         private readonly Harmony harmony = new Harmony(modGUID);
 
