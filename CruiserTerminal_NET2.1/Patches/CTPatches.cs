@@ -19,29 +19,41 @@ namespace CruiserTerminal.Patches
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(VehicleController), "Awake")]
-        static void AwakePatch()
+        static void AwakePatch(VehicleController __instance)
         {
+            if (__instance.vehicleID != 0)
+                return;
+
             CTMethods.Init();
             CTMethods.Spawn();
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(VehicleController), "DestroyCarServerRpc")]
-        static void DestroyCarServerRpcPatch() //i prob could use UnityEvent or Event but whatever
+        static void DestroyCarServerRpcPatch(VehicleController __instance) //i prob could use UnityEvent or Event but whatever
         {
+            if (__instance.vehicleID != 0)
+                return;
+
             cterminal.TerminalExplosionServerRpc(cterminal.health);
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(VehicleController), "DealDamageServerRpc")]
-        static void DealDamageServerRpcPatch()
+        static void DealDamageServerRpcPatch(VehicleController __instance)
         {
+            if (__instance.vehicleID != 0)
+                return;
+
             cterminal.TerminalExplosionServerRpc(CTConfig.cruiserDamage.Value);
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(VehicleController), "OnDisable")]
-        static void OnDisablePatch()
+        static void OnDisablePatch(VehicleController __instance)
         {
             try
             {
+                if (__instance.vehicleID != 0)
+                    return;
+
                 CTMethods.Despawn();
             }
             catch
@@ -61,7 +73,7 @@ namespace CruiserTerminal.Patches
             CTPlugin.mls.LogInfo("cruiser terminal interactable:" + !___terminalInUse);
         }
 
-        [HarmonyPostfix, HarmonyPatch(typeof(ManualCameraRenderer), "MeetsCameraEnabledConditions")]
+        [HarmonyPostfix, HarmonyPatch(typeof(ManualCameraRenderer), "MeetsCameraEnabledConditions"), HarmonyPriority(Priority.Last)]
         static void MeetsCameraEnabledConditionsPatch(ref bool __result)
         {
             if (StartOfRound.Instance == null || cterminal == null)

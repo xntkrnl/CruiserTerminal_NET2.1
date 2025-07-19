@@ -10,7 +10,6 @@ namespace CruiserTerminal.Compatibility
     internal class MalfunctionsCompat
     {
         //electromagnetic dist + power surge
-        //publicized
 
         [HarmonyPostfix, HarmonyPatch(typeof(StartOfRoundPatches), "HandleLevelStart")]
         static void PowerSurgeEvent()
